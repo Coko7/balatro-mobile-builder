@@ -347,7 +347,7 @@ namespace BalatroMobileBuilder
         public class BaseIPA : ExternalTool
         {
             public override string name { get; } = "base-ipa";
-            private static string url = "https://github.com/blake502/balatro-mobile-maker/releases/download/Additional-Tools-1.1/base.ipa";
+            private static string url = "https://raw.githubusercontent.com/PGgamer2/balatro-mobile-builder/main/resources/base.ipa";
 
             public BaseIPA() {
                 if (File.Exists($"{Environment.CurrentDirectory}/base.ipa"))

@@ -58,7 +58,7 @@ Useful informations for developers and advanced users
  - This script will automatically download [love-11.5-android-embed.apk](https://github.com/love2d/love-android/)
  - This script can automatically download [Android Developer Bridge](https://developer.android.com/tools/adb) (optional)
  ### For iOS:
- - This script will automatically download [Balatro-IPA-Base](https://github.com/blake502/balatro-mobile-maker/releases/tag/Additional-Tools-1.1)
+ - This script will automatically download [Balatro-IPA-Base](https://github.com/PGgamer2/balatro-mobile-builder/blob/main/resources/base.ipa)
 
  ## Recogition (in no particular order)
  - [Every contributor](https://github.com/PGgamer2/balatro-mobile-builder/graphs/contributors), especially [blake502](https://github.com/blake502)
