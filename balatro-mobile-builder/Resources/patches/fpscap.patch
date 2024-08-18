@@ -1,0 +1,9 @@
+--- original/main.lua	Wed Aug 07 14:15:18 2024
++++ modded/main.lua	Sat Aug 10 10:45:40 2024
+@@ -79,5 +79,5 @@
+ 
+ 		run_time = math.min(love.timer.getTime() - run_time, 0.1)
+-		G.FPS_CAP = G.FPS_CAP or 500
++		G.FPS_CAP = G.FPS_CAP or select(3, love.window.getMode())['refreshrate']
+ 		if run_time < 1./G.FPS_CAP then love.timer.sleep(1./G.FPS_CAP - run_time) end
+ 	end

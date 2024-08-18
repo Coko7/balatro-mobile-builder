@@ -1,0 +1,10 @@
+--- original/resources/shaders/skew.fs	Mon Apr 24 16:27:11 2023
++++ modded/resources/shaders/skew.fs	Thu Aug 15 22:25:04 2024
+@@ -4,4 +4,7 @@
+ 
+ #ifdef VERTEX
++#ifdef GL_ES
++    precision highp float;
++#endif
+ vec4 position( mat4 transform_projection, vec4 vertex_position )
+ {

@@ -1,0 +1,19 @@
+--- original/resources/shaders/flame.fs	Thu Jun 01 08:15:47 2023
++++ modded/resources/shaders/flame.fs	Sat Aug 10 12:10:34 2024
+@@ -4,5 +4,7 @@
+ 	#define MY_HIGHP_OR_MEDIUMP mediump
+ #endif
+-
++#ifdef GL_ES
++	precision MY_HIGHP_OR_MEDIUMP float;
++#endif
+ 
+ extern MY_HIGHP_OR_MEDIUMP float time;
+@@ -17,6 +19,5 @@
+ #define WHITE vec4(1.,1.,1.,1.)
+ 
+-
+-vec4 effect( vec4 colour, Image texture, vec2 texture_coords, vec2 screen_coords )
++mediump vec4 effect( mediump vec4 colour, Image texture, mediump vec2 texture_coords, mediump vec2 screen_coords )
+ {
+     float intensity = 1.0*min(10.,amount);

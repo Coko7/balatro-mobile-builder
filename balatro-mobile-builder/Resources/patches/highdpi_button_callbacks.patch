@@ -1,0 +1,7 @@
+--- original/functions/button_callbacks.lua	Wed May 01 21:32:13 2024
++++ modded/functions/button_callbacks.lua	Sat Aug 17 18:38:54 2024
+@@ -1171,3 +1171,3 @@
+     display = G.SETTINGS.WINDOW.selected_display,
+-    highdpi = (love.system.getOS() == 'OS X')
++    highdpi = (love.system.getOS() == 'OS X' or love.system.getOS() == 'Android' or love.system.getOS() == 'iOS')
+     })

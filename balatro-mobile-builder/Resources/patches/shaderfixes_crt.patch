@@ -1,0 +1,17 @@
+--- original/resources/shaders/CRT.fs	Sun Apr 28 21:45:41 2024
++++ modded/resources/shaders/CRT.fs	Sun Aug 11 15:29:46 2024
+@@ -4,4 +4,7 @@
+ 	#define MY_HIGHP_OR_MEDIUMP mediump
+ #endif
++#ifdef GL_ES
++	precision MY_HIGHP_OR_MEDIUMP float;
++#endif
+ 
+ extern MY_HIGHP_OR_MEDIUMP number time;
+@@ -18,5 +21,5 @@
+ #define BLOOM_AMT 3
+ 
+-vec4 effect(vec4 color, Image tex, vec2 tc, vec2 pc)
++mediump vec4 effect(mediump vec4 color, Image tex, mediump vec2 tc, mediump vec2 pc)
+ {
+     //Keep the original texture coords

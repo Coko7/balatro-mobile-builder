@@ -1,0 +1,18 @@
+--- original/resources/shaders/flash.fs	Thu Jun 01 08:16:51 2023
++++ modded/resources/shaders/flash.fs	Sun Aug 11 14:55:54 2024
+@@ -4,5 +4,7 @@
+ 	#define MY_HIGHP_OR_MEDIUMP mediump
+ #endif
+-
++#ifdef GL_ES
++	precision MY_HIGHP_OR_MEDIUMP float;
++#endif
+ 
+ extern MY_HIGHP_OR_MEDIUMP number time;
+@@ -11,5 +13,5 @@
+ #define PIXEL_SIZE_FAC 700.
+ 
+-vec4 effect( vec4 colour, Image texture, vec2 texture_coords, vec2 screen_coords )
++mediump vec4 effect( mediump vec4 colour, Image texture, mediump vec2 texture_coords, mediump vec2 screen_coords )
+ {
+     //Convert to UV coords (0-1) and floor for pixel effect

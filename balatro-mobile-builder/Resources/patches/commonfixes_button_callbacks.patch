@@ -1,0 +1,11 @@
+--- original/functions/button_callbacks.lua	Wed May 01 21:32:13 2024
++++ modded/functions/button_callbacks.lua	Fri Aug 02 13:15:40 2024
+@@ -899,7 +899,7 @@
+   end
+ 
+   local OSkeyboard_e = e.parent.parent.parent
+-  if G.CONTROLLER.text_input_hook == e and G.CONTROLLER.HID.controller then
++  if G.CONTROLLER.text_input_hook == e and (G.CONTROLLER.HID.controller or G.CONTROLLER.HID.touch) then
+     if not OSkeyboard_e.children.controller_keyboard then 
+       OSkeyboard_e.children.controller_keyboard = UIBox{
+         definition = create_keyboard_input{backspace_key = true, return_key = true, space_key = false},

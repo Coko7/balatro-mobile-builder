@@ -1,0 +1,6 @@
+--- original/conf.lua	Wed May 01 21:32:13 2024
++++ modded/conf.lua	Sun Aug 18 09:15:22 2024
+@@ -10,2 +10,3 @@
+ 	t.window.minheight = 100
++	t.window.usedpiscale = false
+ end 

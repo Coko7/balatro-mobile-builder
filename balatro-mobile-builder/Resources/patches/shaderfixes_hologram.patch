@@ -1,0 +1,17 @@
+--- original/resources/shaders/hologram.fs	Mon Dec 04 22:10:54 2023
++++ modded/resources/shaders/hologram.fs	Sun Aug 11 15:32:38 2024
+@@ -4,4 +4,7 @@
+ 	#define MY_HIGHP_OR_MEDIUMP mediump
+ #endif
++#ifdef GL_ES
++	precision MY_HIGHP_OR_MEDIUMP float;
++#endif
+ 
+ extern MY_HIGHP_OR_MEDIUMP vec2 hologram;
+@@ -52,5 +55,5 @@
+ }
+ 
+-vec4 effect( vec4 colour, Image texture, vec2 texture_coords, vec2 screen_coords )
++mediump vec4 effect( mediump vec4 colour, Image texture, mediump vec2 texture_coords, mediump vec2 screen_coords )
+ {
+     //Glow effect

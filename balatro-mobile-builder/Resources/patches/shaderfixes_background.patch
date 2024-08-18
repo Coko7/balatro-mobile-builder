@@ -1,0 +1,17 @@
+--- original/resources/shaders/background.fs	Tue Mar 05 21:17:36 2024
++++ modded/resources/shaders/background.fs	Sun Aug 11 14:46:06 2024
+@@ -4,4 +4,7 @@
+ 	#define MY_HIGHP_OR_MEDIUMP mediump
+ #endif
++#ifdef GL_ES
++	precision MY_HIGHP_OR_MEDIUMP float;
++#endif
+ 
+ extern MY_HIGHP_OR_MEDIUMP number time;
+@@ -16,5 +19,5 @@
+ #define SPIN_EASE 0.5
+ 
+-vec4 effect( vec4 colour, Image texture, vec2 texture_coords, vec2 screen_coords )
++mediump vec4 effect( mediump vec4 colour, Image texture, mediump vec2 texture_coords, mediump vec2 screen_coords )
+ {
+     //Convert to UV coords (0-1) and floor for pixel effect

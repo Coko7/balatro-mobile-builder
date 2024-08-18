@@ -1,0 +1,17 @@
+--- original/resources/shaders/splash.fs	Tue Mar 05 21:20:01 2024
++++ modded/resources/shaders/splash.fs	Sun Aug 11 15:04:52 2024
+@@ -4,4 +4,7 @@
+ 	#define MY_HIGHP_OR_MEDIUMP mediump
+ #endif
++#ifdef GL_ES
++	precision MY_HIGHP_OR_MEDIUMP float;
++#endif
+ 
+ extern MY_HIGHP_OR_MEDIUMP number time;
+@@ -15,5 +18,5 @@
+ #define BLACK 0.6*vec4(79./255.,99./255., 103./255., 1./0.6)
+ 
+-vec4 effect( vec4 colour, Image texture, vec2 texture_coords, vec2 screen_coords )
++mediump vec4 effect( mediump vec4 colour, Image texture, mediump vec2 texture_coords, mediump vec2 screen_coords )
+ {
+     //Convert to UV coords (0-1) and floor for pixel effect

@@ -1,0 +1,15 @@
+--- original/resources/shaders/gold_seal.fs	Mon Mar 20 19:32:08 2023
++++ modded/resources/shaders/gold_seal.fs	Sun Aug 11 19:35:40 2024
+@@ -1,5 +1,11 @@
++#ifdef GL_ES
++    #if defined(VERTEX) || __VERSION__ > 100 || defined(GL_FRAGMENT_PRECISION_HIGH)
++        precision highp float;
++    #endif
++#endif
++
+ extern vec4 gold_seal;
+ 
+-vec4 effect( vec4 color, Image texture, vec2 texture_coords, vec2 screen_coords )
++mediump vec4 effect( mediump vec4 color, Image texture, mediump vec2 texture_coords, mediump vec2 screen_coords )
+ {
+     //r controls timing

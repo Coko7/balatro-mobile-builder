@@ -1,0 +1,10 @@
+--- original/resources/shaders/vortex.fs	Thu Mar 23 00:29:45 2023
++++ modded/resources/shaders/vortex.fs	Thu Aug 15 22:24:08 2024
+@@ -2,4 +2,7 @@
+ 
+ #ifdef VERTEX
++#ifdef GL_ES
++    precision highp float;
++#endif
+ vec4 position( mat4 transform_projection, vec4 vertex_position )
+ {

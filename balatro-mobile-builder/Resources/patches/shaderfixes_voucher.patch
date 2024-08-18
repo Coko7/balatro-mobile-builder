@@ -1,0 +1,17 @@
+--- original/resources/shaders/voucher.fs	Mon Jan 15 07:22:11 2024
++++ modded/resources/shaders/voucher.fs	Sun Aug 11 15:34:02 2024
+@@ -4,4 +4,7 @@
+ 	#define MY_HIGHP_OR_MEDIUMP mediump
+ #endif
++#ifdef GL_ES
++	precision MY_HIGHP_OR_MEDIUMP float;
++#endif
+ 
+ extern MY_HIGHP_OR_MEDIUMP vec2 voucher;
+@@ -52,5 +55,5 @@
+ }
+ 
+-vec4 effect( vec4 colour, Image texture, vec2 texture_coords, vec2 screen_coords )
++mediump vec4 effect( mediump vec4 colour, Image texture, mediump vec2 texture_coords, mediump vec2 screen_coords )
+ {
+     vec4 tex = Texel( texture, texture_coords);
