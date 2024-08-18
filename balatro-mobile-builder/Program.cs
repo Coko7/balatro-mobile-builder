@@ -109,5 +109,7 @@ if (RuntimeInformation.OSArchitecture == Architecture.X64 && !buildIOS) {
         }
 
         balaBridge.askToDeleteTools(silentMode);
+        Console.WriteLine($"Deleting {new FileInfo(outFilePath).Name}...");
+        File.Delete(outFilePath);
     }
 }
