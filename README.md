@@ -2,6 +2,8 @@
 
 This is a rewrite of [balatro-mobile-maker](https://github.com/blake502/balatro-mobile-maker) that introduces multiple enhancements and fixes.
 
+![Balatro on yo dam phone](https://raw.githubusercontent.com/PGgamer2/balatro-mobile-builder/main/resources/screenshot.jpg)
+
 The goal of this project is to allow *Balatro* fans to play *Balatro* on their mobile devices before the official release.
 This project provides a **NON-PIRACY** avenue for players to do so,
 by converting their legal *Steam* copy of *Balatro* to a mobile app.
