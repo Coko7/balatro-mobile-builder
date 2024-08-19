@@ -16,13 +16,13 @@ namespace BalatroMobileBuilder
         }
 
         public async Task downloadMissing() {
-			Console.WriteLine($"Downloading {this.baseIpa.name}...");
+            Console.WriteLine($"Downloading {this.baseIpa.name}...");
             await this.baseIpa.downloadTool();
         }
 
-		public void deleteTools() {
-			this.baseIpa.deleteTool();
-		}
+        public void deleteTools() {
+            this.baseIpa.deleteTool();
+        }
 
         public string build(BalatroZip balaZip, string? pathToIpa = null, string decodeDir = ".ipa.d") {
             if (pathToIpa == null)
@@ -41,16 +41,16 @@ namespace BalatroMobileBuilder
 
             Console.WriteLine("Building IPA...");
             fastZip.CreateZip(pathToIpa, decodeDir, true, null);
-			
-			// Cleanup
-			Directory.Delete(decodeDir, true);
-			return pathToIpa;
+
+            // Cleanup
+            Directory.Delete(decodeDir, true);
+            return pathToIpa;
         }
 
         public static string getPlist(Version balatroVer) {
             Version builderVer = Assembly.GetExecutingAssembly().GetName().Version ?? new Version(0, 0, 0, 0);
-			string shortVersion = balatroVer.ToString(3);
-			string bundleVersion = $"{balatroVer.ToString().Replace(".","")}.{builderVer.ToString().Replace(".", "")}.0";
+            string shortVersion = balatroVer.ToString(3);
+            string bundleVersion = $"{balatroVer.ToString().Replace(".", "")}.{builderVer.ToString().Replace(".", "")}.0";
 
             return @$"<?xml version=""1.0"" encoding=""UTF-8""?>
 <!DOCTYPE plist PUBLIC ""-//Apple//DTD PLIST 1.0//EN"" ""http://www.apple.com/DTDs/PropertyList-1.0.dtd"">
