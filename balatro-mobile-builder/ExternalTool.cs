@@ -17,16 +17,23 @@ namespace BalatroMobileBuilder
 
         public abstract void deleteTool();
 
-        public static Process? startAndWaitPrc(ProcessStartInfo info) {
+        public static Process? startAndWaitPrc(ProcessStartInfo info, out string? output) {
             Console.ForegroundColor = ConsoleColor.DarkGray;
+            info.UseShellExecute = false;
+            info.RedirectStandardOutput = true;
             Process? prc = Process.Start(info);
+            output = prc?.StandardOutput.ReadToEnd();
             prc?.WaitForExit();
             Console.ResetColor();
             return prc;
         }
 
+        public static Process? startAndWaitPrc(ProcessStartInfo info) {
+            return startAndWaitPrc(info, out _);
+        }
+
         public static async Task downloadFile(string url, string fileName) {
-            using (HttpClient client = new HttpClient()) 
+            using (HttpClient client = new HttpClient())
             using (HttpResponseMessage response = await client.GetAsync(url, HttpCompletionOption.ResponseHeadersRead)) {
                 using (FileStream fStream = File.Create(fileName))
                 using (Stream dlStream = await response.Content.ReadAsStreamAsync()) {
@@ -271,7 +278,7 @@ namespace BalatroMobileBuilder
                 return prc?.ExitCode ?? 1;
             }
 
-            public int runShell(string command, string? package = null) {
+            public Process? runShell(string command, out string? output, string? package = null) {
                 if (this.path == null) throw new FileNotFoundException($"{this.name} not found");
 
                 if (package == null)
@@ -279,8 +286,11 @@ namespace BalatroMobileBuilder
                 else
                     command = $"shell run-as {package} {command}";
 
-                Process? prc = startAndWaitPrc(new(this.path, command));
-                return prc?.ExitCode ?? 1;
+                return startAndWaitPrc(new(this.path, command), out output);
+            }
+
+            public Process? runShell(string command, string? package = null) {
+                return runShell(command, out _, package);
             }
 
             public int push(string localPath, string remotePath) {
@@ -328,7 +338,8 @@ namespace BalatroMobileBuilder
             }
         }
 
-        public class LoveEmbedApk : ExternalTool {
+        public class LoveEmbedApk : ExternalTool
+        {
             public override string name { get; } = "love-android-embed";
             private static string url = "https://github.com/love2d/love-android/releases/download/11.5a/love-11.5-android-embed.apk";
 
