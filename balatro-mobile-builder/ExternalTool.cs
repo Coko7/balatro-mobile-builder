@@ -282,9 +282,9 @@ namespace BalatroMobileBuilder
                 if (this.path == null) throw new FileNotFoundException($"{this.name} not found");
 
                 if (package == null)
-                    command = $"shell {command}";
+                    command = $@"shell ""{command}""";
                 else
-                    command = $"shell run-as {package} {command}";
+                    command = $@"shell ""run-as {package} {command}""";
 
                 return startAndWaitPrc(new(this.path, command), out output);
             }
