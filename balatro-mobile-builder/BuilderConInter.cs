@@ -2,9 +2,60 @@
 
 namespace BalatroMobileBuilder
 {
-    internal static class BuilderConInter
+    internal static class ConsoleInter
     {
-        public static void buildPrompts(bool silentMode, string? outFilePath, string? platformParam) {
+        public static void saveManager(bool silentMode, string? platformParam) {
+            if (platformParam == "ios") {
+                printError("iOS saves copying isn't supported.");
+                return;
+            }
+            AndroidBalatroBridge balaBridge = new AndroidBalatroBridge();
+            try {
+                balaBridge.downloadMissing().Wait();
+            } catch (AggregateException e) {
+                printError(e.InnerException is HttpRequestException ?
+                    "Download interrupted." : e.ToString());
+                return;
+            }
+
+            Console.WriteLine("Establishing connection to device... Ensure that your smartphone is connected and that USB debugging is enabled.");
+            balaBridge.adb.waitFor();
+
+            bool copySuccess = true;
+            if (askQuestion("Sync saves between devices based on overall progression", silentMode, true)) {
+                balaBridge.adb.waitFor();
+                for (int i = 1; i <= 3; i++) {
+                    double? localProgress = BalatroSaveReader.local(i, "profile")?.getOverallProgress();
+                    double? deviceProgress = balaBridge.readSaveFile(i, "profile")?.getOverallProgress();
+                    if (localProgress == deviceProgress) continue;
+
+                    if (localProgress != null && (deviceProgress == null || localProgress > deviceProgress)) {
+                        copySuccess &= balaBridge.copySaveToDevice(i, false);
+                    } else if (deviceProgress != null) {
+                        copySuccess &= balaBridge.copySaveFromDevice(i);
+                    }
+                }
+            } else if (askQuestion("Copy local saves to device", silentMode)) {
+                balaBridge.adb.waitFor();
+                for (int i = 1; i <= 3; i++) {
+                    copySuccess &= balaBridge.copySaveToDevice(i);
+                }
+            } else if (askQuestion("Copy device saves locally", silentMode)) {
+                balaBridge.adb.waitFor();
+                for (int i = 1; i <= 3; i++) {
+                    copySuccess &= balaBridge.copySaveFromDevice(i);
+                }
+            }
+
+            if (copySuccess)
+                Console.WriteLine("Done!");
+            else
+                printError("Couldn't copy properly.");
+            
+            balaBridge.askToDeleteTools(silentMode);
+        }
+
+        public static void buildManager(bool silentMode, string? platformParam, string? outFilePath) {
             // Search Balatro.exe (or game.love) and extract
             BalatroZip balaZip = new BalatroZip();
             if (balaZip.exePath == null) {
@@ -83,10 +134,18 @@ namespace BalatroMobileBuilder
                         return;
                     }
 
+                    Console.WriteLine("Establishing connection to device... Ensure that your smartphone is connected and that USB debugging is enabled.");
+                    balaBridge.adb.waitFor();
+
+                    Console.WriteLine("Connected. Installing...");
                     balaBridge.installApk(outFilePath);
 
                     if (askQuestion("Copy saves to your device", silentMode, true)) {
-                        if (balaBridge.copySavesToDevice())
+                        bool copySuccess = true;
+                        for (int i = 1; i <= 3; i++) {
+                            copySuccess &= balaBridge.copySaveToDevice(i);
+                        }
+                        if (copySuccess)
                             Console.WriteLine("Done!");
                         else
                             printError("Couldn't copy properly.");

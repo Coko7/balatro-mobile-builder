@@ -7,7 +7,7 @@ bool silentMode = false;
 string? platformParam = null;
 string? outFilePath = null;
 for (int i = 0; i < args.Length; i++) {
-    switch(args[i]) {
+    switch (args[i]) {
     case "-s":
         if (args.Length > i + 1) {
             silentMode = true;
@@ -22,4 +22,7 @@ for (int i = 0; i < args.Length; i++) {
     }
 }
 
-BuilderConInter.buildPrompts(silentMode, platformParam, outFilePath);
+if (BuilderConInter.askQuestion("Open the Android save manager", silentMode, false))
+    BuilderConInter.saveManager(silentMode, platformParam);
+else
+    BuilderConInter.buildManager(silentMode, platformParam, outFilePath);
