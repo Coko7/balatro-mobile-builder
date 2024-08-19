@@ -5,6 +5,7 @@ This is a rewrite of [balatro-mobile-maker](https://github.com/blake502/balatro-
 ### Significant changes:
  - Introduced automatic save syncing between devices.
  - Multiple graphic fixes due to DPI and shader issues.
+ - Removed dependency that needed to be downloaded.
  - Dynamic code and patch system.
 
 ![Balatro on yo dam phone](https://raw.githubusercontent.com/PGgamer2/balatro-mobile-builder/main/resources/screenshot.jpg)
