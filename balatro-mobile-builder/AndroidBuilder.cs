@@ -47,7 +47,7 @@ namespace BalatroMobileBuilder
             Console.WriteLine("Decoding base APK...");
             int exitCode = apktool.decodeApk(decodeDir, loveEmbedApk.path);
             if (exitCode != 0) {
-                MiscUtils.printError($"{apktool.name} returned {exitCode}");
+                BuilderConInter.printError($"{apktool.name} returned {exitCode}");
                 Environment.Exit(exitCode);
             }
 
@@ -71,7 +71,7 @@ namespace BalatroMobileBuilder
             Console.WriteLine("Building APK...");
             exitCode = apktool.buildApk(pathToApk, decodeDir);
             if (exitCode != 0) {
-                MiscUtils.printError($"{apktool.name} returned {exitCode}");
+                BuilderConInter.printError($"{apktool.name} returned {exitCode}");
                 Environment.Exit(exitCode);
             }
 
@@ -87,7 +87,7 @@ namespace BalatroMobileBuilder
             Console.WriteLine("Signing APK...");
             int exitCode = uberApkSigner.signOverwrite(inApkFile);
             if (exitCode != 0) {
-                MiscUtils.printError($"{uberApkSigner.name} returned {exitCode}");
+                BuilderConInter.printError($"{uberApkSigner.name} returned {exitCode}");
                 Environment.Exit(exitCode);
             }
             File.Move(inApkFile, outApkFile, true);

@@ -22,9 +22,18 @@ namespace BalatroMobileBuilder
         }
 
         public void askToDeleteTools(bool silentMode) {
-            if (adb.wasDownloaded && MiscUtils.askQuestion("Delete ADB", silentMode, true)) {
+            if (adb.wasDownloaded && BuilderConInter.askQuestion("Delete ADB", silentMode, true)) {
                 adb.deleteTool();
             }
+        }
+
+        public static string? getSavePath() {
+            foreach (OSPlatform platform in savePaths.Keys) {
+                if (RuntimeInformation.IsOSPlatform(platform)) {
+                    return savePaths[platform];
+                }
+            }
+            return null;
         }
 
         public void installApk(string signedApk) {
@@ -33,29 +42,26 @@ namespace BalatroMobileBuilder
             Console.WriteLine("Connected. Installing...");
             int result = adb.install(signedApk);
             if (result != 0) {
-                MiscUtils.printError($"{adb.name} returned {result}");
+                BuilderConInter.printError($"{adb.name} returned {result}");
                 Environment.Exit(result);
             }
             adb.killServer();
         }
 
-        public void copySavesToDevice() {
-            string? savePath = null;
-            foreach (OSPlatform platform in savePaths.Keys) {
-                if (RuntimeInformation.IsOSPlatform(platform)) {
-                    savePath = savePaths[platform];
-                    break;
-                }
-            }
+        public bool copySavesToDevice() {
+            string? savePath = getSavePath();
             if (!Directory.Exists(savePath)) {
-                MiscUtils.printError("Couldn't find save directory.");
-                return;
+                BuilderConInter.printError("Couldn't find save directory.");
+                return false;
             }
 
-            adb.push($"{savePath}/.", "/data/local/tmp/balatro/saves/");
-            adb.runShell("am force-stop com.unofficial.balatro");
-            adb.runShell("cp -r /data/local/tmp/balatro/saves/ ./files/save/game/", "com.unofficial.balatro");
+            int errCheck = 0;
+            errCheck |= adb.push($"{savePath}/.", "/data/local/tmp/balatro/saves/");
+            errCheck |= adb.runShell("am force-stop com.unofficial.balatro");
+            errCheck |= adb.runShell("cp -r /data/local/tmp/balatro/saves/ ./files/save/game/", "com.unofficial.balatro");
             adb.killServer();
+
+            return errCheck == 0;
         }
     }
 }

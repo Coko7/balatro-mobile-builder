@@ -17,6 +17,14 @@ namespace BalatroMobileBuilder
 
         public abstract void deleteTool();
 
+        public static Process? startAndWaitPrc(ProcessStartInfo info) {
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+            Process? prc = Process.Start(info);
+            prc?.WaitForExit();
+            Console.ResetColor();
+            return prc;
+        }
+
         public static async Task downloadFile(string url, string fileName) {
             using (HttpClient client = new HttpClient()) 
             using (HttpResponseMessage response = await client.GetAsync(url, HttpCompletionOption.ResponseHeadersRead)) {
@@ -64,7 +72,7 @@ namespace BalatroMobileBuilder
 
             public Process? runJar(string jar, string javaArgs = "") {
                 if (this.path == null) throw new FileNotFoundException($"{this.name} not found");
-                return MiscUtils.startAndWaitPrc(new(this.path, $"{javaArgs} -jar {jar}"));
+                return startAndWaitPrc(new(this.path, $"{javaArgs} -jar {jar}"));
             }
 
             public override async Task downloadTool() {
@@ -241,13 +249,13 @@ namespace BalatroMobileBuilder
 
             public int waitFor(string arg = "device") {
                 if (this.path == null) throw new FileNotFoundException($"{this.name} not found");
-                Process? prc = MiscUtils.startAndWaitPrc(new(this.path, $"wait-for-{arg}"));
+                Process? prc = startAndWaitPrc(new(this.path, $"wait-for-{arg}"));
                 return prc?.ExitCode ?? 1;
             }
 
             public int killServer() {
                 if (this.path == null) throw new FileNotFoundException($"{this.name} not found");
-                Process? prc = MiscUtils.startAndWaitPrc(new(this.path, $"kill-server"));
+                Process? prc = startAndWaitPrc(new(this.path, $"kill-server"));
                 return prc?.ExitCode ?? 1;
             }
 
@@ -259,7 +267,7 @@ namespace BalatroMobileBuilder
                 if (allowDowngrade) command += " -d";
                 command += $@" ""{apkFile}""";
 
-                Process? prc = MiscUtils.startAndWaitPrc(new(this.path, command));
+                Process? prc = startAndWaitPrc(new(this.path, command));
                 return prc?.ExitCode ?? 1;
             }
 
@@ -271,19 +279,19 @@ namespace BalatroMobileBuilder
                 else
                     command = $"shell run-as {package} {command}";
 
-                Process? prc = MiscUtils.startAndWaitPrc(new(this.path, command));
+                Process? prc = startAndWaitPrc(new(this.path, command));
                 return prc?.ExitCode ?? 1;
             }
 
             public int push(string localPath, string remotePath) {
                 if (this.path == null) throw new FileNotFoundException($"{this.name} not found");
-                Process? prc = MiscUtils.startAndWaitPrc(new(this.path, @$"push ""{localPath}"" ""{remotePath}"""));
+                Process? prc = startAndWaitPrc(new(this.path, @$"push ""{localPath}"" ""{remotePath}"""));
                 return prc?.ExitCode ?? 1;
             }
 
             public int pull(string remotePath, string localPath) {
                 if (this.path == null) throw new FileNotFoundException($"{this.name} not found");
-                Process? prc = MiscUtils.startAndWaitPrc(new(this.path, @$"pull ""{remotePath}"" ""{localPath}"""));
+                Process? prc = startAndWaitPrc(new(this.path, @$"pull ""{remotePath}"" ""{localPath}"""));
                 return prc?.ExitCode ?? 1;
             }
 
