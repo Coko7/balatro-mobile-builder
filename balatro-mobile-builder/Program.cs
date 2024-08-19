@@ -22,7 +22,7 @@ for (int i = 0; i < args.Length; i++) {
     }
 }
 
-if (BuilderConInter.askQuestion("Open the Android save manager", silentMode, false))
-    BuilderConInter.saveManager(silentMode, platformParam);
+if (ConsoleInterface.askQuestion("Open the Android save manager", silentMode, false))
+    ConsoleInterface.saveManager(silentMode, platformParam);
 else
-    BuilderConInter.buildManager(silentMode, platformParam, outFilePath);
+    ConsoleInterface.buildManager(silentMode, platformParam, outFilePath);
