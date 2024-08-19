@@ -23,8 +23,8 @@ namespace BalatroMobileBuilder
             }
 
 #if DEBUG
-            BalatroPatches.setReleaseMode(false, balaZip);
             if (!silentMode) {
+                BalatroPatches.setReleaseMode(false, balaZip);
                 while (askQuestion("Run a test", silentMode, false)) {
                     try {
                         ExternalTool.startAndWaitPrc(new("love", balaZip.extractPath));
@@ -32,8 +32,8 @@ namespace BalatroMobileBuilder
                         printError("Couldn't execute love.");
                     }
                 }
+                BalatroPatches.setReleaseMode(true, balaZip);
             }
-            BalatroPatches.setReleaseMode(true, balaZip);
 #endif
 
             // Build app
