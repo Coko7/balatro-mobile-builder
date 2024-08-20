@@ -66,12 +66,12 @@ Useful informations for developers and advanced users
  ### For iOS:
  - This script will automatically download [Balatro-IPA-Base](https://github.com/PGgamer2/balatro-mobile-builder/blob/main/resources/base.ipa)
 
- ## Recogition (in no particular order)
+ ## Recognition (in no particular order)
  - [Every contributor](https://github.com/PGgamer2/balatro-mobile-builder/graphs/contributors), especially [blake502](https://github.com/blake502)
- - Developers of [uber-apk-signer](https://github.com/patrickfav/uber-apk-signer)
- - Developers of [LÖVE](https://love2d.org/)
- - Developers of [APKTool](https://apktool.org/)
  - Delevopers of [Balatro](https://www.playbalatro.com/)
+ - Developers of [LÖVE](https://love2d.org/)
+ - Developers of [APKTool](https://apktool.org/) and [uber-apk-signer](https://github.com/patrickfav/uber-apk-signer)
+ - Developers of [DiffPatch](https://github.com/aberteau/DiffPatch/graphs/contributors) and [SharpZipLib](https://github.com/icsharpcode/SharpZipLib/graphs/contributors)
 
  ## License
  - This project uses [APKTool](https://github.com/iBotPeaches/Apktool/blob/master/LICENSE.md)
@@ -79,3 +79,5 @@ Useful informations for developers and advanced users
  - This project uses [LÖVE](https://github.com/love2d/love/blob/main/license.txt)
  - This project uses [Android Developer Bridge](https://developer.android.com/license)
  - This project uses [OpenJDK](https://openjdk.org/legal/gplv2+ce.html)
+ - This project uses [DiffPatch](https://github.com/aberteau/DiffPatch/blob/master/LICENSE)
+ - This project uses [SharpZipLib](https://github.com/icsharpcode/SharpZipLib/blob/master/LICENSE.txt)
