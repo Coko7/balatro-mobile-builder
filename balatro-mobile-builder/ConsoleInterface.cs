@@ -55,7 +55,7 @@ namespace BalatroMobileBuilder
             balaBridge.askToDeleteTools(silentMode);
         }
 
-        public static void buildManager(bool silentMode, string? platformParam, string? outFilePath) {
+        public static void buildManager(bool silentMode, List<string> selectedPatches, string? platformParam, string? outFilePath) {
             // Search Balatro.exe (or game.love) and extract
             BalatroZip balaZip = new BalatroZip();
             if (balaZip.exePath == null) {
@@ -67,9 +67,19 @@ namespace BalatroMobileBuilder
             balaZip.extract();
 
             /* Apply patches */
-            foreach (BalatroPatch patch in BalatroPatches.patchList) {
-                if (askQuestion(@$"Apply ""{patch.name}"" patch", patch.hidden || silentMode, patch.defaultPromptAns)) {
-                    BalatroPatches.applyPatch(patch, balaZip);
+            if (silentMode)
+                Console.WriteLine("Applying patches...");
+            if (selectedPatches.Count > 0) {
+                foreach (BalatroPatch patch in BalatroPatches.patchList) {
+                    if (selectedPatches.Contains(patch.id)) {
+                        BalatroPatches.applyPatch(patch, balaZip);
+                    }
+                }
+            } else {
+                foreach (BalatroPatch patch in BalatroPatches.patchList) {
+                    if (askQuestion(@$"Apply {patch.name} patch", patch.hidden || silentMode, patch.defaultPromptAns)) {
+                        BalatroPatches.applyPatch(patch, balaZip);
+                    }
                 }
             }
 

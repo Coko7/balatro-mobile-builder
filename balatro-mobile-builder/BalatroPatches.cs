@@ -9,10 +9,10 @@ namespace BalatroMobileBuilder
     public static class BalatroPatches
     {
         public static List<BalatroPatch> patchList = [
-            new BalatroPatch("common fixes", new Dictionary<string, string> {
+            new BalatroPatch("commonfixes", "Common Fixes", new Dictionary<string, string> {
                 { "commonfixes_globals", "globals.lua" },
                 { "commonfixes_button_callbacks", "functions/button_callbacks.lua" } }, true, true),
-            new BalatroPatch("shader fixes", new Dictionary<string, string> {
+            new BalatroPatch("shaderfixes", "Shader Fixes", new Dictionary<string, string> {
                 { "shaderfixes_background", "resources/shaders/background.fs" },
                 { "shaderfixes_booster", "resources/shaders/booster.fs" },
                 { "shaderfixes_crt", "resources/shaders/CRT.fs" },
@@ -33,14 +33,14 @@ namespace BalatroMobileBuilder
                 { "shaderfixes_vortex", "resources/shaders/vortex.fs" },
                 { "shaderfixes_voucher", "resources/shaders/voucher.fs" } }, true, true),
 
-            new BalatroPatch("external storage", new Dictionary<string, string> {
+            new BalatroPatch("externalstorage", "External Storage", new Dictionary<string, string> {
                 { "externalstorage", "conf.lua" } }, false, true),
 
-            new BalatroPatch("FPS cap", new Dictionary<string, string> {
+            new BalatroPatch("fpscap", "FPS cap", new Dictionary<string, string> {
                 { "fpscap", "main.lua" } }),
-            new BalatroPatch("landscape", new Dictionary<string, string> {
+            new BalatroPatch("landscape", "Landscape", new Dictionary<string, string> {
                 { "landscape", "functions/button_callbacks.lua" } }),
-            new BalatroPatch("high-dpi", new Dictionary<string, string> {
+            new BalatroPatch("highdpi", "High DPI", new Dictionary<string, string> {
                 { "highdpi_conf", "conf.lua" },
                 { "highdpi_button_callbacks", "functions/button_callbacks.lua" } })
         ];
@@ -71,12 +71,14 @@ namespace BalatroMobileBuilder
 
     public readonly struct BalatroPatch
     {
+        public readonly string id;
         public readonly string name;
         public readonly Dictionary<string, string> pathAssignedPatches;
         public readonly bool defaultPromptAns;
         public readonly bool hidden;
 
-        public BalatroPatch(string name, Dictionary<string, string> pathAssignedPatches, bool defaultPromptAns = true, bool hidden = false) {
+        public BalatroPatch(string id, string name, Dictionary<string, string> pathAssignedPatches, bool defaultPromptAns = true, bool hidden = false) {
+            this.id = id;
             this.name = name;
             this.pathAssignedPatches = pathAssignedPatches;
             this.defaultPromptAns = defaultPromptAns;
