@@ -83,7 +83,7 @@ namespace BalatroMobileBuilder
             // Read file as hex string using xxd and then convert to binary
             string? hex = null;
             adb.runShell($"xxd -c 0 -p files/save/game/{saveNum}/{type}.jkr", out hex, "com.unofficial.balatro");
-            if (hex != null) {
+            if (!string.IsNullOrEmpty(hex)) {
                 hex = hex.Trim();
                 byte[] fileContent = Enumerable.Range(0, hex.Length / 2)
                     .Select(x => Byte.Parse(hex.Substring(2 * x, 2), NumberStyles.HexNumber))
