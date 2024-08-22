@@ -49,8 +49,8 @@ namespace BalatroMobileBuilder
             return prc;
         }
 
-        public static Process? startAndWaitPrc(ProcessStartInfo info) {
-            return startAndWaitPrc(info, out _, out _);
+        public static Process? startAndWaitPrc(ProcessStartInfo info, bool printOut = true, bool printErr = true) {
+            return startAndWaitPrc(info, out _, out _, printOut, printErr);
         }
 
         public static async Task downloadFile(string url, string fileName) {
@@ -283,7 +283,7 @@ namespace BalatroMobileBuilder
 
             public int killServer() {
                 if (this.path == null) throw new FileNotFoundException($"{this.name} not found");
-                Process? prc = startAndWaitPrc(new(this.path, $"kill-server"));
+                Process? prc = startAndWaitPrc(new(this.path, $"kill-server"), false, false);
                 return prc?.ExitCode ?? 1;
             }
 
