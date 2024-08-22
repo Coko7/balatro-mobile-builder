@@ -18,7 +18,7 @@ namespace BalatroMobileBuilder
         }
 
         public void askToDeleteTools(bool silentMode) {
-            if (adb.wasDownloaded && ConInterface.askQuestion("Delete ADB", silentMode, true)) {
+            if (adb.wasDownloaded && ConInterface.ask("Delete ADB", silentMode, true)) {
                 adb.deleteTool();
             }
         }

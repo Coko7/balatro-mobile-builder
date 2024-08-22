@@ -22,7 +22,7 @@ namespace BalatroMobileBuilder
             balaBridge.adb.waitFor();
 
             bool copySuccess = true;
-            if (askQuestion("Sync saves between devices based on overall progression", silentMode, savesTransferMode == "auto")) {
+            if (ask("Sync saves between devices based on overall progression", silentMode, savesTransferMode == "auto")) {
                 balaBridge.adb.waitFor();
                 for (int i = 1; i <= 3; i++) {
                     double? localProgress = BalatroSaveReader.local(i, "profile")?.getOverallProgress();
@@ -35,12 +35,12 @@ namespace BalatroMobileBuilder
                         copySuccess &= balaBridge.copySaveFromDevice(i);
                     }
                 }
-            } else if (askQuestion("Copy local saves to device", silentMode, savesTransferMode == "device")) {
+            } else if (ask("Copy local saves to device", silentMode, savesTransferMode == "device")) {
                 balaBridge.adb.waitFor();
                 for (int i = 1; i <= 3; i++) {
                     copySuccess &= balaBridge.copySaveToDevice(i);
                 }
-            } else if (askQuestion("Copy device saves locally", silentMode, savesTransferMode == "local")) {
+            } else if (ask("Copy device saves locally", silentMode, savesTransferMode == "local")) {
                 balaBridge.adb.waitFor();
                 for (int i = 1; i <= 3; i++) {
                     copySuccess &= balaBridge.copySaveFromDevice(i);
@@ -78,7 +78,7 @@ namespace BalatroMobileBuilder
                 }
             } else {
                 foreach (BalatroPatch patch in BalatroPatches.patchList) {
-                    if (askQuestion(@$"Apply {patch.name} patch", patch.hidden || silentMode, patch.defaultPromptAns)) {
+                    if (ask(@$"Apply {patch.name} patch", patch.hidden || silentMode, patch.defaultPromptAns)) {
                         BalatroPatches.applyPatch(patch, balaZip);
                     }
                 }
@@ -87,7 +87,7 @@ namespace BalatroMobileBuilder
 #if DEBUG
             if (!silentMode) {
                 BalatroPatches.setReleaseMode(false, balaZip);
-                while (askQuestion("Run a test", silentMode, false)) {
+                while (ask("Run a test", silentMode, false)) {
                     try {
                         ExternalTool.startAndWaitPrc(new("love", balaZip.extractPath));
                     } catch (Exception) {
@@ -103,7 +103,7 @@ namespace BalatroMobileBuilder
             if (platformParam == "ios")
                 buildIOS = true;
             else if (platformParam != "android")
-                buildIOS = askQuestion("Build for iOS", silentMode, false);
+                buildIOS = ask("Build for iOS", silentMode, false);
 
             try {
                 if (buildIOS) {
@@ -111,7 +111,7 @@ namespace BalatroMobileBuilder
                     IOSBuilder iOSBuilder = new IOSBuilder();
                     iOSBuilder.downloadMissing().Wait();
                     outFilePath = iOSBuilder.build(balaZip, outFilePath);
-                    if (askQuestion("Delete downloaded building tools", silentMode, true)) {
+                    if (ask("Delete downloaded building tools", silentMode, true)) {
                         iOSBuilder.deleteTools();
                     }
                 } else {
@@ -120,7 +120,7 @@ namespace BalatroMobileBuilder
                     apkBuilder.downloadMissing();
                     string builtApk = apkBuilder.build(balaZip);
                     outFilePath = apkBuilder.sign(builtApk, outFilePath);
-                    if (askQuestion("Delete downloaded building tools", silentMode, true)) {
+                    if (ask("Delete downloaded building tools", silentMode, true)) {
                         apkBuilder.deleteTools();
                     }
                 }
@@ -135,7 +135,7 @@ namespace BalatroMobileBuilder
 
             /* Automatic installation */
             if (RuntimeInformation.OSArchitecture == Architecture.X64 && !buildIOS) {
-                if (askQuestion("Install to your Android device through USB", silentMode, !silentMode)) {
+                if (ask("Install to your Android device through USB", silentMode, !silentMode)) {
                     AndroidBalatroBridge balaBridge = new AndroidBalatroBridge();
                     try {
                         balaBridge.downloadMissing().Wait();
@@ -151,7 +151,7 @@ namespace BalatroMobileBuilder
                     Console.WriteLine("Connected. Installing...");
                     balaBridge.installApk(outFilePath);
 
-                    if (askQuestion("Copy saves to your device", silentMode, true)) {
+                    if (ask("Copy saves to your device", silentMode, true)) {
                         balaBridge.adb.waitFor();
                         bool copySuccess = true;
                         for (int i = 1; i <= 3; i++) {
@@ -177,7 +177,7 @@ namespace BalatroMobileBuilder
             Console.ResetColor();
         }
 
-        public static bool askQuestion(string question, bool silentMode, bool? defaultAnswer = null) {
+        public static bool ask(string question, bool silentMode, bool? defaultAnswer = null) {
             if (silentMode && defaultAnswer != null)
                 return (bool)defaultAnswer;
 
