@@ -17,19 +17,40 @@ namespace BalatroMobileBuilder
 
         public abstract void deleteTool();
 
-        public static Process? startAndWaitPrc(ProcessStartInfo info, out string? output) {
-            Console.ForegroundColor = ConsoleColor.DarkGray;
+        public static Process? startAndWaitPrc(ProcessStartInfo info, out string? output, out string? errors, bool printOut = true, bool printErr = true) {
             info.UseShellExecute = false;
             info.RedirectStandardOutput = true;
+            info.RedirectStandardError = true;
+
+            Console.ForegroundColor = ConsoleColor.DarkGray;
             Process? prc = Process.Start(info);
-            output = prc?.StandardOutput.ReadToEnd();
+
+            string? localOut = null, localErr = null;
+            if (prc != null) {
+                prc.OutputDataReceived += new DataReceivedEventHandler((sender, e) => {
+                    localOut += e.Data;
+                    if (printOut && !string.IsNullOrEmpty(e.Data))
+                        Console.WriteLine(e.Data);
+                });
+                prc.ErrorDataReceived += new DataReceivedEventHandler((sender, e) => {
+                    localErr += e.Data;
+                    if (printErr && !string.IsNullOrEmpty(e.Data))
+                        Console.WriteLine(e.Data);
+                });
+                prc.BeginErrorReadLine();
+                prc.BeginOutputReadLine();
+            }
+
             prc?.WaitForExit();
             Console.ResetColor();
+
+            output = localOut;
+            errors = localErr;
             return prc;
         }
 
         public static Process? startAndWaitPrc(ProcessStartInfo info) {
-            return startAndWaitPrc(info, out _);
+            return startAndWaitPrc(info, out _, out _);
         }
 
         public static async Task downloadFile(string url, string fileName) {
@@ -278,7 +299,7 @@ namespace BalatroMobileBuilder
                 return prc?.ExitCode ?? 1;
             }
 
-            public Process? runShell(string command, out string? output, string? package = null) {
+            public Process? runShell(string command, out string? output, string? package = null, bool printOut = false) {
                 if (this.path == null) throw new FileNotFoundException($"{this.name} not found");
 
                 if (package == null)
@@ -286,11 +307,11 @@ namespace BalatroMobileBuilder
                 else
                     command = $@"shell ""run-as {package} {command}""";
 
-                return startAndWaitPrc(new(this.path, command), out output);
+                return startAndWaitPrc(new(this.path, command), out output, out _, printOut);
             }
 
             public Process? runShell(string command, string? package = null) {
-                return runShell(command, out _, package);
+                return runShell(command, out _, package, true);
             }
 
             public int push(string localPath, string remotePath) {
