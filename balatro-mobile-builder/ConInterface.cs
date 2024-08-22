@@ -4,7 +4,7 @@ namespace BalatroMobileBuilder
 {
     internal interface ConInterface
     {
-        public static void saveManager(bool silentMode, string? platformParam, string? savesTransferMode) {
+        public static void saveManager(bool silentMode, string? platformParam, string savesTransferMode = "auto") {
             if (platformParam == "ios") {
                 printError("iOS saves copying isn't supported.");
                 return;

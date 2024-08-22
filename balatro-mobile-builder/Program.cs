@@ -47,6 +47,6 @@ for (int i = 0; i < args.Length; i++) {
 }
 
 if (ConInterface.askQuestion("Open the Android save manager", silentMode, savesTransferMode != null))
-    ConInterface.saveManager(silentMode, platformParam, savesTransferMode);
+    ConInterface.saveManager(silentMode, platformParam, savesTransferMode ?? "auto");
 else
     ConInterface.buildManager(silentMode, selectedPatches, platformParam, outFilePath);
