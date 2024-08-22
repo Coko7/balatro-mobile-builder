@@ -4,7 +4,7 @@ namespace BalatroMobileBuilder
 {
     internal interface ConInterface
     {
-        public static void saveManager(bool silentMode, string? platformParam) {
+        public static void saveManager(bool silentMode, string? platformParam, string? savesTransferMode) {
             if (platformParam == "ios") {
                 printError("iOS saves copying isn't supported.");
                 return;
@@ -22,7 +22,7 @@ namespace BalatroMobileBuilder
             balaBridge.adb.waitFor();
 
             bool copySuccess = true;
-            if (askQuestion("Sync saves between devices based on overall progression", silentMode, true)) {
+            if (askQuestion("Sync saves between devices based on overall progression", silentMode, savesTransferMode == "auto")) {
                 balaBridge.adb.waitFor();
                 for (int i = 1; i <= 3; i++) {
                     double? localProgress = BalatroSaveReader.local(i, "profile")?.getOverallProgress();
@@ -35,12 +35,12 @@ namespace BalatroMobileBuilder
                         copySuccess &= balaBridge.copySaveFromDevice(i);
                     }
                 }
-            } else if (askQuestion("Copy local saves to device", silentMode)) {
+            } else if (askQuestion("Copy local saves to device", silentMode, savesTransferMode == "device")) {
                 balaBridge.adb.waitFor();
                 for (int i = 1; i <= 3; i++) {
                     copySuccess &= balaBridge.copySaveToDevice(i);
                 }
-            } else if (askQuestion("Copy device saves locally", silentMode)) {
+            } else if (askQuestion("Copy device saves locally", silentMode, savesTransferMode == "local")) {
                 balaBridge.adb.waitFor();
                 for (int i = 1; i <= 3; i++) {
                     copySuccess &= balaBridge.copySaveFromDevice(i);
