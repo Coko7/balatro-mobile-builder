@@ -11,8 +11,9 @@ for (int i = 0; i < args.Length; i++) {
     switch (args[i]) {
     case "/s":
     case "-s":
-        if (args.Length > i + 1) {
-            silentMode = true;
+        silentMode = true;
+        if (args.Length > i + 1
+            && !args[i + 1].StartsWith('-') && !args[i + 1].StartsWith('/')) {
             platformParam = args[i + 1].ToLower();
         }
         break;
