@@ -2,7 +2,7 @@
 
 namespace BalatroMobileBuilder
 {
-    internal interface ConsoleInterface
+    internal interface ConInterface
     {
         public static void saveManager(bool silentMode, string? platformParam) {
             if (platformParam == "ios") {

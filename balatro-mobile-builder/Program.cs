@@ -34,7 +34,7 @@ for (int i = 0; i < args.Length; i++) {
     }
 }
 
-if (ConsoleInterface.askQuestion("Open the Android save manager", silentMode, false))
-    ConsoleInterface.saveManager(silentMode, platformParam);
+if (ConInterface.askQuestion("Open the Android save manager", silentMode, false))
+    ConInterface.saveManager(silentMode, platformParam);
 else
-    ConsoleInterface.buildManager(silentMode, selectedPatches, platformParam, outFilePath);
+    ConInterface.buildManager(silentMode, selectedPatches, platformParam, outFilePath);

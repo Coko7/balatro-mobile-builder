@@ -18,7 +18,7 @@ namespace BalatroMobileBuilder
         }
 
         public void askToDeleteTools(bool silentMode) {
-            if (adb.wasDownloaded && ConsoleInterface.askQuestion("Delete ADB", silentMode, true)) {
+            if (adb.wasDownloaded && ConInterface.askQuestion("Delete ADB", silentMode, true)) {
                 adb.deleteTool();
             }
         }
@@ -26,7 +26,7 @@ namespace BalatroMobileBuilder
         public void installApk(string signedApk) {
             int result = adb.install(signedApk);
             if (result != 0) {
-                ConsoleInterface.printError($"{adb.name} returned {result}");
+                ConInterface.printError($"{adb.name} returned {result}");
                 Environment.Exit(result);
             }
             adb.killServer();
@@ -37,7 +37,7 @@ namespace BalatroMobileBuilder
                 savePath = BalatroSaveReader.getLocalSavePath();
             if (!Directory.Exists($"{savePath}/{saveNum}")) {
                 if (ignoreNonExistent) return true;
-                ConsoleInterface.printError("Couldn't find save directory.");
+                ConInterface.printError("Couldn't find save directory.");
                 return false;
             }
 
@@ -59,7 +59,7 @@ namespace BalatroMobileBuilder
             if (savePath == null)
                 savePath = BalatroSaveReader.getLocalSavePath();
             if (!Directory.Exists(savePath)) {
-                ConsoleInterface.printError("Couldn't find save directory.");
+                ConInterface.printError("Couldn't find save directory.");
                 return false;
             }
 
