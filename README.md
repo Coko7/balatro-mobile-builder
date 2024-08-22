@@ -41,14 +41,16 @@ Please review the **Notes** section before you begin.
 Useful informations for developers and advanced users
  ### Command Line Args 
  The executable has a few command line parameters:
-  - `-s (android/ios)` enables silent mode. This will automatically build the app for the specified platform
-  - `-o FILE` specifies the path for the output file
+  - `-s [android/ios]` enables silent mode. This will automatically build the app for the specified platform.
+  - `-p commonfixes externalstorage ...` applies only the selected patches ([go here for the IDs](https://github.com/PGgamer2/balatro-mobile-builder/blob/main/balatro-mobile-builder/BalatroPatches.cs)).
+  - `-o FILE` specifies the path for the output file.
+  - `-save [auto/device/local]` transfers save files to device or locally instead of building.
  ### Creating new patches
  Patch files are located in the `balatro-mobile-builder/Resources/patches/` directory and added as assembly resources.
  These files can be generated using the [diff](http://www.gnu.org/software/diffutils/diffutils.html) tool like so:
  `diff -U2 original.lua modified.lua > example.patch`.
- To register a new patch, it must be added to the `BalatroMobileBuilder.BalatroPatches.patchList` list
- with its name and the path of the file it modifies.
+ To register a new patch, it must be added to the `BalatroMobileBuilder.BalatroPatches.patchList`
+ with its id, name and the path of the file it modifies.
  ### Testing
  When running in debug mode, a new prompt for testing will appear.
  It will run LÖVE on the local machine using the path where Balatro was extracted (default to `.balatro.d`)
