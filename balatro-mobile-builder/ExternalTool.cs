@@ -333,6 +333,7 @@ namespace BalatroMobileBuilder
 
             public override void deleteTool() {
                 if (!this.wasDownloaded) return;
+                killServer();
                 if (Directory.Exists(this.homePath))
                     Directory.Delete(this.homePath, true);
             }

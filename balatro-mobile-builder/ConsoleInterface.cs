@@ -151,6 +151,7 @@ namespace BalatroMobileBuilder
                     balaBridge.installApk(outFilePath);
 
                     if (askQuestion("Copy saves to your device", silentMode, true)) {
+                        balaBridge.adb.waitFor();
                         bool copySuccess = true;
                         for (int i = 1; i <= 3; i++) {
                             copySuccess &= balaBridge.copySaveToDevice(i);
