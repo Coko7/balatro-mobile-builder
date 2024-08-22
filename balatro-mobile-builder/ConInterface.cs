@@ -51,7 +51,8 @@ namespace BalatroMobileBuilder
                 Console.WriteLine("Done!");
             else
                 printError("Couldn't copy properly.");
-            
+
+            balaBridge.adb.killServer();
             balaBridge.askToDeleteTools(silentMode);
         }
 
@@ -156,6 +157,7 @@ namespace BalatroMobileBuilder
                         for (int i = 1; i <= 3; i++) {
                             copySuccess &= balaBridge.copySaveToDevice(i);
                         }
+                        balaBridge.adb.killServer();
                         if (copySuccess)
                             Console.WriteLine("Done!");
                         else
