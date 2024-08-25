@@ -148,10 +148,13 @@ namespace BalatroMobileBuilder
                     Console.WriteLine("Establishing connection to device... Ensure that your smartphone is connected and that USB debugging is enabled.");
                     balaBridge.adb.waitFor();
 
-                    Console.WriteLine("Connected. Installing...");
+                    string? oldPackagesList = null;
+                    balaBridge.adb.runShell("pm list packages com.unofficial.balatro", out oldPackagesList);
+
+                    Console.WriteLine("Installing...");
                     balaBridge.installApk(outFilePath);
 
-                    if (ask("Copy saves to your device", silentMode, true)) {
+                    if (ask("Copy local saves to your device", silentMode, !oldPackagesList?.Contains("com.unofficial.balatro"))) {
                         balaBridge.adb.waitFor();
                         bool copySuccess = true;
                         for (int i = 1; i <= 3; i++) {
