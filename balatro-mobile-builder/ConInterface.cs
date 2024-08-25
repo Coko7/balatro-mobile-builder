@@ -9,6 +9,11 @@ namespace BalatroMobileBuilder
                 printError("iOS saves copying isn't supported.");
                 return;
             }
+            if (RuntimeInformation.OSArchitecture != Architecture.X64) {
+                printError("Saves copying is supported only on x64 devices.");
+                return;
+            }
+
             AndroidBalatroBridge balaBridge = new AndroidBalatroBridge();
             try {
                 balaBridge.downloadMissing().Wait();
