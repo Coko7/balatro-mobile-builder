@@ -100,6 +100,11 @@ namespace BalatroMobileBuilder
 
         public static string getManifest(Version balatroVer) {
             Version builderVer = Assembly.GetExecutingAssembly().GetName().Version ?? new Version(0, 0, 0, 0);
+            /* 
+             * The manifest versionCode is an integer.
+             * Define it like so: BBBBAAAA, where BBBB is the Balatro version
+             * and AAAA is the builder version (Example: 1.0.1f + 0.9.0 -> 10160900).
+             */
             int versionCode = builderVer.Major * 1000 + builderVer.Minor * 100 + builderVer.Build * 10 + builderVer.Revision;
             versionCode += balatroVer.Major * (int)1e7 + balatroVer.Minor * (int)1e6 + balatroVer.Build * (int)1e5 + balatroVer.Revision * (int)1e4;
 

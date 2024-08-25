@@ -8,6 +8,13 @@ namespace BalatroMobileBuilder
 {
     public static class BalatroPatches
     {
+        /**
+         * <summary>
+         * A "BalatroPatch" is actually a list of .patch files that will
+         * be applied to different files. An id and a name must be specified for
+         * each BalatroPatch.
+         * </summary>
+         */
         public static List<BalatroPatch> patchList = [
             new BalatroPatch("commonfixes", "Common Fixes", new Dictionary<string, string> {
                 { "commonfixes_globals", "globals.lua" },
@@ -47,6 +54,7 @@ namespace BalatroMobileBuilder
 
         public static void applyPatch(BalatroPatch patch, BalatroZip balaZip) {
             foreach (var patchInfo in patch.pathAssignedPatches) {
+                // Get patch file from assembly resources
                 object? resource = Resources.ResourceManager.GetObject(patchInfo.Key);
                 ArgumentNullException.ThrowIfNull(resource);
                 string patchContent = UTF8Encoding.UTF8.GetString((byte[])resource);
@@ -54,6 +62,7 @@ namespace BalatroMobileBuilder
                 string filePath = $"{balaZip.extractPath}/{patchInfo.Value}";
                 string fileContent = File.ReadAllText(filePath, Encoding.UTF8);
 
+                // Patch the specified file
                 FileDiff[] diffs = DiffParserHelper.Parse(patchContent.ReplaceLineEndings("\n"), "\n").ToArray();
                 foreach (FileDiff diff in diffs) {
                     fileContent = PatchHelper.Patch(fileContent.ReplaceLineEndings("\n"), diff.Chunks, "\n");

@@ -32,8 +32,9 @@ namespace BalatroMobileBuilder
                 for (int i = 1; i <= 3; i++) {
                     double? localProgress = BalatroSaveReader.local(i, "profile")?.getOverallProgress();
                     double? deviceProgress = balaBridge.readSaveFile(i, "profile")?.getOverallProgress();
+                    
+                    // Copy to device if local overall progress is higher, else copy from device
                     if (localProgress == deviceProgress) continue;
-
                     if (localProgress != null && (deviceProgress == null || localProgress > deviceProgress)) {
                         copySuccess &= balaBridge.copySaveToDevice(i, false);
                     } else if (deviceProgress != null) {

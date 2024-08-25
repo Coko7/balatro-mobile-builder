@@ -15,6 +15,7 @@ namespace BalatroMobileBuilder
 
         public abstract Task downloadTool();
 
+        /// <summary>Deletes the tool if the wasDownloaded flag is set to true.</summary>
         public abstract void deleteTool();
 
         public static Process? startAndWaitPrc(ProcessStartInfo info, out string? output, out string? errors, bool printOut = true, bool printErr = true) {
@@ -53,10 +54,10 @@ namespace BalatroMobileBuilder
             return startAndWaitPrc(info, out _, out _, printOut, printErr);
         }
 
-        public static async Task downloadFile(string url, string fileName) {
+        public static async Task downloadFile(string url, string path) {
             using (HttpClient client = new HttpClient())
             using (HttpResponseMessage response = await client.GetAsync(url, HttpCompletionOption.ResponseHeadersRead)) {
-                using (FileStream fStream = File.Create(fileName))
+                using (FileStream fStream = File.Create(path))
                 using (Stream dlStream = await response.Content.ReadAsStreamAsync()) {
                     await dlStream.CopyToAsync(fStream);
                 }
@@ -90,6 +91,7 @@ namespace BalatroMobileBuilder
                     return;
                 }
 
+                // Check in the JAVA_HOME env var
                 string? javaHome = Environment.GetEnvironmentVariable("JAVA_HOME");
                 if (Directory.Exists(javaHome)) {
                     this.homePath = javaHome;

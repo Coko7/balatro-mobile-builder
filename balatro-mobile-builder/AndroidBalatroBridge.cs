@@ -80,7 +80,8 @@ namespace BalatroMobileBuilder
         }
 
         public BalatroSaveReader? readSaveFile(int saveNum, string type) {
-            // Read file as hex string using xxd and then convert to binary
+            // Read file as hex string using xxd and then convert to binary.
+            // By doing it this way, we avoid pulling through ADB.
             string? hex = null;
             adb.runShell($"xxd -c 0 -p files/save/game/{saveNum}/{type}.jkr", out hex, "com.unofficial.balatro");
             if (!string.IsNullOrEmpty(hex)) {

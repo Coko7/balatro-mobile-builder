@@ -16,6 +16,7 @@ namespace BalatroMobileBuilder
         public string? exePath { get; }
         public string extractPath { get; }
 
+        /// <summary>Automatically searches for a Balatro executable.</summary>
         public BalatroZip(string extractPath = ".balatro.d") {
             this.extractPath = extractPath;
 
@@ -62,6 +63,12 @@ namespace BalatroMobileBuilder
             return File.ReadLines($"{this.extractPath}/version.jkr").FirstOrDefault("0.0.0a");
         }
 
+        /**
+         * <summary>
+         * Returns the Balatro version in X.X.X.X format.
+         * <example>Example: 1.0.1f -> 1.0.1.6</example>
+         * </summary>
+         */
         public Version getVersion() {
             string strVer = getStringVersion();
             Match match = new Regex(@"(\d+)\.(\d+)\.(\d+)(\w)?").Match(strVer);

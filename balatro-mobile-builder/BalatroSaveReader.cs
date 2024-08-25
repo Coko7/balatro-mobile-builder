@@ -5,6 +5,13 @@ using System.Text.RegularExpressions;
 
 namespace BalatroMobileBuilder
 {
+    /**
+     * <summary>
+     * Balatro save files contain raw DEFLATE-compressed strings of Lua code
+     * that return a table containing the data. This class has a simple
+     * decoder and parser of its content.
+     * </summary>
+     */
     public class BalatroSaveReader
     {
         public static readonly Dictionary<OSPlatform, string> savePaths = new Dictionary<OSPlatform, string> {
