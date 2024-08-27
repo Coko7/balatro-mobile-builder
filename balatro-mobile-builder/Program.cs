@@ -1,6 +1,7 @@
 ﻿using BalatroMobileBuilder;
+using System.Reflection;
 
-Console.WriteLine("[Balatro Mobile Builder]");
+Console.WriteLine($"Balatro Mobile Builder {Assembly.GetExecutingAssembly().GetName().Version?.ToString(3)}");
 
 // Additional parameters
 bool silentMode = false;
