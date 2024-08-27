@@ -1,6 +1,6 @@
---- original/functions/button_callbacks.lua	Wed May 01 21:32:13 2024
-+++ modded/functions/button_callbacks.lua	Sat Aug 17 18:40:15 2024
-@@ -1169,3 +1169,3 @@
+--- original/functions/button_callbacks.lua	Tue Aug 27 03:54:22 2024
++++ modded/functions/button_callbacks.lua	Tue Aug 27 18:24:08 2024
+@@ -1179,3 +1179,3 @@
      vsync = G.SETTINGS.WINDOW.vsync,
 -    resizable = true,
 +    resizable = not (love.system.getOS() == 'Android' or love.system.getOS() == 'iOS'),
