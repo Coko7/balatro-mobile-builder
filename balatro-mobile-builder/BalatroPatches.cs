@@ -1,6 +1,4 @@
 ﻿using BalatroMobileBuilder.Properties;
-using DiffPatch;
-using DiffPatch.Data;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -52,23 +50,26 @@ namespace BalatroMobileBuilder
                 { "highdpi_button_callbacks", "functions/button_callbacks.lua" } })
         ];
 
-        public static void applyPatch(BalatroPatch patch, BalatroZip balaZip) {
+        public static bool applyPatch(BalatroPatch patch, BalatroZip balaZip) {
+            bool err = false;
             foreach (var patchInfo in patch.pathAssignedPatches) {
-                // Get patch file from assembly resources
-                object? resource = Resources.ResourceManager.GetObject(patchInfo.Key);
-                ArgumentNullException.ThrowIfNull(resource);
-                string patchContent = UTF8Encoding.UTF8.GetString((byte[])resource);
-
+                // Get file content
                 string filePath = $"{balaZip.extractPath}/{patchInfo.Value}";
                 string fileContent = File.ReadAllText(filePath, Encoding.UTF8);
 
+                // Get patch file from assembly resources
+                object? resource = Resources.ResourceManager.GetObject(patchInfo.Key);
+                ArgumentNullException.ThrowIfNull(resource);
+                string patchFile = UTF8Encoding.UTF8.GetString((byte[])resource);
+
                 // Patch the specified file
-                FileDiff[] diffs = DiffParserHelper.Parse(patchContent.ReplaceLineEndings("\n"), "\n").ToArray();
-                foreach (FileDiff diff in diffs) {
-                    fileContent = PatchHelper.Patch(fileContent.ReplaceLineEndings("\n"), diff.Chunks, "\n");
-                }
+                List<UnifiedPatch.Hunk> hunks = UnifiedPatch.parseText(patchFile);
+                (fileContent, bool[] results) = UnifiedPatch.apply(fileContent, hunks);
                 File.WriteAllText(filePath, fileContent);
+
+                err |= results.Contains(false);
             }
+            return err;
         }
 
         public static void setReleaseMode(bool value, BalatroZip balaZip) {

@@ -79,13 +79,15 @@ namespace BalatroMobileBuilder
             if (selectedPatches.Count > 0) {
                 foreach (BalatroPatch patch in BalatroPatches.patchList) {
                     if (selectedPatches.Contains(patch.id)) {
-                        BalatroPatches.applyPatch(patch, balaZip);
+                        if (BalatroPatches.applyPatch(patch, balaZip))
+                            printError($"Couldn't apply {patch.id} patch properly.");
                     }
                 }
             } else {
                 foreach (BalatroPatch patch in BalatroPatches.patchList) {
-                    if (ask(@$"Apply {patch.name} patch", patch.hidden || silentMode, patch.defaultPromptAns)) {
-                        BalatroPatches.applyPatch(patch, balaZip);
+                    if (ask($"Apply {patch.name} patch", patch.hidden || silentMode, patch.defaultPromptAns)) {
+                        if (BalatroPatches.applyPatch(patch, balaZip))
+                            printError($"Couldn't apply {patch.id} patch properly.");
                     }
                 }
             }
