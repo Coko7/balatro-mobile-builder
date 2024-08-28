@@ -72,16 +72,16 @@ namespace BalatroMobileBuilder
             private FastZip fastZip = new FastZip();
             private static Dictionary<OSPlatform, Dictionary<Architecture, string>> urls = new Dictionary<OSPlatform, Dictionary<Architecture, string>> {
                 { OSPlatform.Windows, new Dictionary<Architecture, string> {
-                    { Architecture.X64, "https://aka.ms/download-jdk/microsoft-jdk-21.0.3-windows-x64.zip" },
-                    { Architecture.Arm64, "https://aka.ms/download-jdk/microsoft-jdk-21.0.3-windows-aarch64.zip" }
+                    { Architecture.X64, "https://aka.ms/download-jdk/microsoft-jdk-21.0.4-windows-x64.zip" },
+                    { Architecture.Arm64, "https://aka.ms/download-jdk/microsoft-jdk-21.0.4-windows-aarch64.zip" }
                 } },
                 { OSPlatform.Linux, new Dictionary<Architecture, string> {
-                    { Architecture.X64, "https://aka.ms/download-jdk/microsoft-jdk-21.0.3-linux-x64.tar.gz" },
-                    { Architecture.Arm64, "https://aka.ms/download-jdk/microsoft-jdk-21.0.3-linux-aarch64.tar.gz" }
+                    { Architecture.X64, "https://aka.ms/download-jdk/microsoft-jdk-21.0.4-linux-x64.tar.gz" },
+                    { Architecture.Arm64, "https://aka.ms/download-jdk/microsoft-jdk-21.0.4-linux-aarch64.tar.gz" }
                 } },
                 { OSPlatform.OSX, new Dictionary<Architecture, string> {
-                    { Architecture.X64, "https://aka.ms/download-jdk/microsoft-jdk-21.0.3-macos-x64.tar.gz" },
-                    { Architecture.Arm64, "https://aka.ms/download-jdk/microsoft-jdk-21.0.3-macos-aarch64.tar.gz" }
+                    { Architecture.X64, "https://aka.ms/download-jdk/microsoft-jdk-21.0.4-macos-x64.tar.gz" },
+                    { Architecture.Arm64, "https://aka.ms/download-jdk/microsoft-jdk-21.0.4-macos-aarch64.tar.gz" }
                 } }
             };
 
