@@ -54,6 +54,15 @@ namespace BalatroMobileBuilder
             return startAndWaitPrc(info, out _, out _, printOut, printErr);
         }
 
+        public static int chmodExec(string path) {
+            foreach (OSPlatform platform in new OSPlatform[] { OSPlatform.Linux, OSPlatform.OSX, OSPlatform.FreeBSD }) {
+                if (RuntimeInformation.IsOSPlatform(platform)) {
+                    return startAndWaitPrc(new("chmod", $@"+x ""{path}"""), false)?.ExitCode ?? 2;
+                }
+            }
+            return -1;
+        }
+
         public static async Task downloadFile(string url, string path) {
             using (HttpClient client = new HttpClient())
             using (HttpResponseMessage response = await client.GetAsync(url, HttpCompletionOption.ResponseHeadersRead)) {
@@ -143,6 +152,8 @@ namespace BalatroMobileBuilder
                 this.homePath = homePath;
                 this.path = homePath + "/bin/java";
                 this.wasDownloaded = true;
+
+                chmodExec(this.path);
 
                 // Cleanup
                 Directory.Delete(dlPath, true);
@@ -349,6 +360,8 @@ namespace BalatroMobileBuilder
                 this.homePath = dlPath;
                 this.path = dlPath + "/adb";
                 this.wasDownloaded = true;
+
+                chmodExec(this.path);
 
                 // Cleanup
                 File.Delete($"{dlPath}.tmp");
