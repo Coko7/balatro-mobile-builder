@@ -57,7 +57,7 @@ namespace BalatroMobileBuilder
         public static int chmodExec(string path) {
             foreach (OSPlatform platform in new OSPlatform[] { OSPlatform.Linux, OSPlatform.OSX, OSPlatform.FreeBSD }) {
                 if (RuntimeInformation.IsOSPlatform(platform)) {
-                    return startAndWaitPrc(new("chmod", $@"+x ""{path}"""), false)?.ExitCode ?? 2;
+                    return startAndWaitPrc(new("chmod", $@"-R +x ""{path}"""), false)?.ExitCode ?? 2;
                 }
             }
             return -1;
@@ -153,7 +153,7 @@ namespace BalatroMobileBuilder
                 this.path = homePath + "/bin/java";
                 this.wasDownloaded = true;
 
-                chmodExec(this.path);
+                chmodExec(this.homePath);
 
                 // Cleanup
                 Directory.Delete(dlPath, true);
@@ -361,7 +361,7 @@ namespace BalatroMobileBuilder
                 this.path = dlPath + "/adb";
                 this.wasDownloaded = true;
 
-                chmodExec(this.path);
+                chmodExec(this.homePath);
 
                 // Cleanup
                 File.Delete($"{dlPath}.tmp");
