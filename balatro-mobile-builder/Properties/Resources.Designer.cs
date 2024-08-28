@@ -83,6 +83,16 @@ namespace BalatroMobileBuilder.Properties {
         /// <summary>
         ///   Cerca una risorsa localizzata di tipo System.Byte[].
         /// </summary>
+        internal static byte[] crtdisable {
+            get {
+                object obj = ResourceManager.GetObject("crtdisable", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una risorsa localizzata di tipo System.Byte[].
+        /// </summary>
         internal static byte[] drawable_hdpi {
             get {
                 object obj = ResourceManager.GetObject("drawable-hdpi", resourceCulture);

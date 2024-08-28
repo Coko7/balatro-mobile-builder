@@ -1,0 +1,6 @@
+--- original/game.lua	Wed Aug 28 19:21:16 2024
++++ modded/game.lua	Wed Aug 28 19:22:03 2024
+@@ -2908,3 +2908,2 @@
+         G.SHADERS['CRT']:send('hovering', 1)
+-        love.graphics.setShader( G.SHADERS['CRT'])
+         G.SETTINGS.GRAPHICS.crt = G.SETTINGS.GRAPHICS.crt/0.3

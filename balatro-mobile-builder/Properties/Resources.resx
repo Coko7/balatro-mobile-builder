@@ -211,4 +211,7 @@
   <data name="shaderfixes_voucher" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\patches\shaderfixes_voucher.patch;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="crtdisable" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\patches\crtdisable.patch;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
 </root>

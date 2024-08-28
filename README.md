@@ -36,6 +36,7 @@ Please review the **Notes** section before you begin.
  - **FPS Cap** — Caps FPS to the device's native refresh rate (Recommended for performance)
  - **Landscape Orientation** — Locks the game to landscape orientation (Recommended, since portrait orientation does not behave very well)
  - **High DPI** — Enables [High DPI graphics mode](https://love2d.org/wiki/love.window.setMode) (Recommended, fixes some graphical bugs)
+ - **CRT Shader Disable** — Disables the CRT Shader (Recommended for Pixel and some other devices)
 
 ## For power users
 Useful informations for developers and advanced users
