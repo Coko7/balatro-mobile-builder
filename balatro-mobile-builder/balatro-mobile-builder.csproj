@@ -13,7 +13,7 @@
     <AssemblyOriginatorKeyFile>sgKey.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
-  <PropertyGroup Condition="$([MSBuild]::IsOSPlatform('Windows'))">
+  <PropertyGroup Condition="'$(Configuration)'=='Debug' And $([MSBuild]::IsOSPlatform('Windows'))">
     <DefineConstants>OS_WINDOWS</DefineConstants>
   </PropertyGroup>
 
