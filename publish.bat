@@ -1,13 +1,14 @@
 @echo off
 
-echo Clearing bin, publish, and obj folders.
+echo Cleaning bin, publish, and obj folders.
 
 rmdir publish /s /q
 mkdir publish
 
 cd balatro-mobile-builder
 
-rmdir bin /s /q
+rmdir bin\Release /s /q
+rmdir bin\publish /s /q
 rmdir obj /s /q
 
 echo Building win-x64
