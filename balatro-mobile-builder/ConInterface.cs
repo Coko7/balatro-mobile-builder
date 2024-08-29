@@ -206,5 +206,35 @@ namespace BalatroMobileBuilder
             } while (!string.IsNullOrWhiteSpace(ans) || defaultAnswer == null);
             return (bool)defaultAnswer;
         }
+
+#if OS_WINDOWS
+        const int STD_OUTPUT_HANDLE = -11;
+        const uint ENABLE_VIRTUAL_TERMINAL_PROCESSING = 4;
+        [DllImport("kernel32.dll", SetLastError = true)]
+        static extern IntPtr GetStdHandle(int nStdHandle);
+        [DllImport("kernel32.dll")]
+        static extern bool GetConsoleMode(IntPtr hConsoleHandle, out uint lpMode);
+        [DllImport("kernel32.dll")]
+        static extern bool SetConsoleMode(IntPtr hConsoleHandle, uint dwMode);
+
+        public static void enableVTMode() {
+            var handle = GetStdHandle(STD_OUTPUT_HANDLE);
+            uint mode;
+            GetConsoleMode(handle, out mode);
+            mode |= ENABLE_VIRTUAL_TERMINAL_PROCESSING;
+            SetConsoleMode(handle, mode);
+        }
+
+        public static bool isVTModeAvailable() {
+            // See here https://en.wikipedia.org/wiki/ANSI_escape_code#DOS_and_Windows
+            return OperatingSystem.IsWindowsVersionAtLeast(10, 0, 10586);
+        }
+#else
+        public static void enableVTMode() { }
+
+        public static bool isVTModeAvailable() {
+            return true;
+        }
+#endif
     }
 }

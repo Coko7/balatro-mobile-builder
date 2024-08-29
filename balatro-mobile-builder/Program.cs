@@ -47,6 +47,7 @@ for (int i = 0; i < args.Length; i++) {
     }
 }
 
+ConInterface.enableVTMode();
 Console.CancelKeyPress += delegate {
     Console.ResetColor();
     Environment.Exit(-0x3ffffec6);

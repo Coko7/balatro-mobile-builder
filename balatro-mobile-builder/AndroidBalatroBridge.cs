@@ -12,9 +12,7 @@ namespace BalatroMobileBuilder
 
         public async Task downloadMissing() {
             if (adb.path != null) return;
-            Console.WriteLine($"Starting to download {adb.name}...");
             await adb.downloadTool();
-            Console.WriteLine($"Finished downloading {adb.name}.");
         }
 
         public void askToDeleteTools(bool silentMode) {

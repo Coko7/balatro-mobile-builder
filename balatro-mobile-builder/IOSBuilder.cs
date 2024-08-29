@@ -16,7 +16,7 @@ namespace BalatroMobileBuilder
         }
 
         public async Task downloadMissing() {
-            Console.WriteLine($"Downloading {this.baseIpa.name}...");
+            if (this.baseIpa.path != null) return;
             await this.baseIpa.downloadTool();
         }
 

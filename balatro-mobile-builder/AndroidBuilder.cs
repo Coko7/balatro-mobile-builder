@@ -19,17 +19,20 @@ namespace BalatroMobileBuilder
 
         public List<Task> downloadMissing(bool wait = true) {
             List<Task> tasks = new List<Task>();
+            int row = Console.CursorTop + 1;
             foreach (ExternalTool tool in new ExternalTool[] { this.jdk, this.apktool, this.uberApkSigner, this.loveEmbedApk }) {
-                if (tool.path != null) continue;
+                if (tool.path != null)
+                    continue;
                 tasks.Add(Task.Run(async () => {
-                    Console.WriteLine($"Starting to download {tool.name}...");
-                    await tool.downloadTool();
-                    Console.WriteLine($"Finished downloading {tool.name}.");
+                    int r = row++;
+                    await tool.downloadTool(r);
                 }));
             }
 
             // Wait for every download to finish
             if (wait) Task.WaitAll(tasks.ToArray());
+
+            Console.SetCursorPosition(0, row);
             return tasks;
         }
 

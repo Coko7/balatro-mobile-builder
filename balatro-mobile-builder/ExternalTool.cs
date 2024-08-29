@@ -13,7 +13,7 @@ namespace BalatroMobileBuilder
         public string? path { get; protected set; }
         public bool wasDownloaded { get; protected set; } = false;
 
-        public abstract Task downloadTool();
+        public abstract Task downloadTool(int progressRow = -1);
 
         /// <summary>Deletes the tool if the wasDownloaded flag is set to true.</summary>
         public abstract void deleteTool();
@@ -63,14 +63,30 @@ namespace BalatroMobileBuilder
             return -1;
         }
 
-        public static async Task downloadFile(string url, string path) {
-            using (HttpClient client = new HttpClient())
-            using (HttpResponseMessage response = await client.GetAsync(url, HttpCompletionOption.ResponseHeadersRead)) {
-                using (FileStream fStream = File.Create(path))
-                using (Stream dlStream = await response.Content.ReadAsStreamAsync()) {
-                    await dlStream.CopyToAsync(fStream);
-                }
+        public static async Task downloadFile(string url, string path, string progressName = "", int progressRow = -1) {
+            if (progressName.Length == 0)
+                progressName = url;
+
+            Progress<float> progress = new Progress<float>();
+            if (ConInterface.isVTModeAvailable()) {
+                if (progressRow < 0)
+                    progressRow = Console.CursorTop + 1;
+                progress.ProgressChanged += (sender, percentage) => {
+                    string message = $"Downloading {progressName}: {percentage.ToString("0.00")}%";
+                    // Save cursor, go to progress line, clear line, write message and restore cursor
+                    Console.Write($"\u001B[s\u001B[{progressRow};0H\u001b[K{message}\u001B[u");
+                };
+            } else {
+                Console.WriteLine($"Downloading {progressName}...");
             }
+
+            using (HttpClient client = new HttpClient())
+            using (FileStream file = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None)) {
+                await client.DownloadDataAsync(url, file, progress);
+            }
+
+            if (progressRow > 0 && ConInterface.isVTModeAvailable())
+                Console.SetCursorPosition(0, progressRow + 1);
         }
 
         public class JDK : ExternalTool
@@ -114,7 +130,7 @@ namespace BalatroMobileBuilder
                 return startAndWaitPrc(new(this.path, $"{javaArgs} -jar {jar}"));
             }
 
-            public override async Task downloadTool() {
+            public override async Task downloadTool(int progressRow = -1) {
                 string? dlUrl = null;
                 foreach (OSPlatform platform in urls.Keys) {
                     if (RuntimeInformation.IsOSPlatform(platform)) {
@@ -125,7 +141,7 @@ namespace BalatroMobileBuilder
                 if (dlUrl == null) throw new PlatformNotSupportedException();
 
                 string dlPath = $"{Environment.CurrentDirectory}/.jdkdl";
-                await downloadFile(dlUrl, $"{dlPath}.tmp");
+                await downloadFile(dlUrl, $"{dlPath}.tmp", this.name, progressRow);
 
                 if (Directory.Exists(dlPath)) Directory.Delete(dlPath, true);
                 try {
@@ -205,9 +221,9 @@ namespace BalatroMobileBuilder
                 return proc?.ExitCode ?? 1;
             }
 
-            public override async Task downloadTool() {
+            public override async Task downloadTool(int progressRow = -1) {
                 string filePath = $"{Environment.CurrentDirectory}/apktool.jar";
-                await downloadFile(url, filePath);
+                await downloadFile(url, filePath, this.name, progressRow);
                 this.path = filePath;
                 this.wasDownloaded = true;
             }
@@ -254,9 +270,9 @@ namespace BalatroMobileBuilder
                 return proc?.ExitCode ?? 1;
             }
 
-            public override async Task downloadTool() {
+            public override async Task downloadTool(int progressRow = -1) {
                 string filePath = $"{Environment.CurrentDirectory}/uber-apk-signer.jar";
-                await downloadFile(url, filePath);
+                await downloadFile(url, filePath, this.name, progressRow);
                 this.path = filePath;
                 this.wasDownloaded = true;
             }
@@ -339,7 +355,7 @@ namespace BalatroMobileBuilder
                 return prc?.ExitCode ?? 1;
             }
 
-            public override async Task downloadTool() {
+            public override async Task downloadTool(int progressRow = -1) {
                 if (RuntimeInformation.OSArchitecture != Architecture.X64)
                     throw new PlatformNotSupportedException();
 
@@ -353,7 +369,7 @@ namespace BalatroMobileBuilder
                 if (dlUrl == null) throw new PlatformNotSupportedException();
 
                 string dlPath = $"{Environment.CurrentDirectory}/platform-tools";
-                await downloadFile(dlUrl, $"{dlPath}.tmp");
+                await downloadFile(dlUrl, $"{dlPath}.tmp", this.name, progressRow);
 
                 if (Directory.Exists(dlPath)) Directory.Delete(dlPath, true);
                 fastZip.ExtractZip($"{dlPath}.tmp", Environment.CurrentDirectory, null);
@@ -386,9 +402,9 @@ namespace BalatroMobileBuilder
             }
             public LoveEmbedApk(string path) { this.path = path; }
 
-            public override async Task downloadTool() {
+            public override async Task downloadTool(int progressRow = -1) {
                 string filePath = $"{Environment.CurrentDirectory}/love-android-embed.apk";
-                await downloadFile(url, filePath);
+                await downloadFile(url, filePath, this.name, progressRow);
                 this.path = filePath;
                 this.wasDownloaded = true;
             }
@@ -411,9 +427,9 @@ namespace BalatroMobileBuilder
             }
             public BaseIPA(string path) { this.path = path; }
 
-            public override async Task downloadTool() {
+            public override async Task downloadTool(int progressRow = -1) {
                 string filePath = $"{Environment.CurrentDirectory}/base.ipa";
-                await downloadFile(url, filePath);
+                await downloadFile(url, filePath, this.name, progressRow);
                 this.path = filePath;
                 this.wasDownloaded = true;
             }
