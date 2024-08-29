@@ -5,7 +5,8 @@ namespace BalatroMobileBuilder
 {
     public static class UnifiedPatch
     {
-        public class Hunk {
+        public class Hunk
+        {
             public required int ogCtxStart, nwCtxStart;
             public required string[] ogCtxLines, nwCtxLines;
 
@@ -47,7 +48,7 @@ namespace BalatroMobileBuilder
                  * lines starting with '+' are added ctx
                  * and lines starting with '\' indicate that the previous line has no new line.
                  */
-                switch(lines[i][0]) {
+                switch (lines[i][0]) {
                 case ' ':
                     patchHunks[hunkIndex].ogCtxLines[++ogCtxIndex] = lines[i].Substring(1);
                     patchHunks[hunkIndex].nwCtxLines[++nwCtxIndex] = lines[i].Substring(1);
@@ -80,14 +81,14 @@ namespace BalatroMobileBuilder
         public static (string, bool) apply(string input, Hunk hunk, int maxOffset = 1000) {
             bool crlf = input.Contains("\r\n");
             string[] inLines = Regex.Split(input.ReplaceLineEndings("\n"), "(?<=\n)");
-            
+
             StringBuilder output = new StringBuilder(input.Length);
             int linesChecked = 0;
             for (int i = 0; i < inLines.Length; i++) {
                 if (i + linesChecked < inLines.Length // Check if reaching eof
                     && Math.Abs(hunk.nwCtxStart - i) < maxOffset // Check if offset is too high
                     && linesChecked < hunk.ogCtxLines.Length // Check if patch was already applied
-                    ) { 
+                    ) {
                     // Check if current and following lines are the same of the old ctx
                     for (linesChecked = 0; linesChecked < hunk.ogCtxLines.Length; linesChecked++) {
                         if (inLines[i + linesChecked] != hunk.ogCtxLines[linesChecked])

@@ -50,11 +50,11 @@ namespace BalatroMobileBuilder
             adb.runShell("am force-stop com.unofficial.balatro"); // Stop Balatro process
             adb.runShell($"rm ./files/save/game/{saveNum}/save.jkr", "com.unofficial.balatro"); // Remove save.jkr as it may not be present (and not overwritten)
             errCheck |= adb.runShell($"cp -r /data/local/tmp/balatro/{saveNum} ./files/save/game", "com.unofficial.balatro")?.ExitCode ?? 1;
-            
+
             return errCheck == 0;
         }
 
-        public bool copySaveFromDevice(int saveNum, bool ignoreNonExistent = true, string ? savePath = null) {
+        public bool copySaveFromDevice(int saveNum, bool ignoreNonExistent = true, string? savePath = null) {
             if (savePath == null)
                 savePath = BalatroSaveReader.getLocalSavePath();
             if (!Directory.Exists(savePath)) {
@@ -75,7 +75,7 @@ namespace BalatroMobileBuilder
             adb.runShell($"cat ./files/save/game/{saveNum}/save.jkr > /data/local/tmp/balatro/{saveNum}/save.jkr", "com.unofficial.balatro");
             File.Delete($"{savePath}/{saveNum}/save.jkr"); // Remove save.jkr as it may not be present (and not overwritten)
             errCheck |= adb.pull($"/data/local/tmp/balatro/{saveNum}/.", $"{savePath}/{saveNum}/");
-            
+
             return errCheck == 0;
         }
 

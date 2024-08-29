@@ -22,7 +22,7 @@ for (int i = 0; i < args.Length; i++) {
     case "/o":
     case "-o":
         // -o FILE
-        if (args.Length > i + 1) 
+        if (args.Length > i + 1)
             outFilePath = args[i + 1];
         break;
     case "/p":
