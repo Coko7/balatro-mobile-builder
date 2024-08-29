@@ -47,6 +47,11 @@ for (int i = 0; i < args.Length; i++) {
     }
 }
 
+Console.CancelKeyPress += delegate {
+    Console.ResetColor();
+    Environment.Exit(-0x3ffffec6);
+};
+
 if (ConInterface.ask("Open the Android save manager", silentMode, savesTransferMode != null))
     ConInterface.saveManager(silentMode, platformParam, savesTransferMode ?? "auto");
 else
