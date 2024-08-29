@@ -69,8 +69,10 @@ namespace BalatroMobileBuilder
 
             Progress<float> progress = new Progress<float>();
             if (ConInterface.isVTModeAvailable()) {
-                if (progressRow < 0)
+                if (progressRow < 0) {
                     progressRow = Console.CursorTop + 1;
+                    Console.WriteLine();
+                }
                 progress.ProgressChanged += (sender, percentage) => {
                     string message = $"Downloading {progressName}: {percentage.ToString("0.00")}%";
                     // Save cursor, go to progress line, clear line, write message and restore cursor
@@ -84,9 +86,6 @@ namespace BalatroMobileBuilder
             using (FileStream file = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None)) {
                 await client.DownloadDataAsync(url, file, progress);
             }
-
-            if (progressRow > 0 && ConInterface.isVTModeAvailable())
-                Console.SetCursorPosition(0, progressRow + 1);
         }
 
         public class JDK : ExternalTool

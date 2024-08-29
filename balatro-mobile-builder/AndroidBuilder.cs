@@ -25,14 +25,13 @@ namespace BalatroMobileBuilder
                     continue;
                 tasks.Add(Task.Run(async () => {
                     int r = row++;
+                    Console.WriteLine();
                     await tool.downloadTool(r);
                 }));
             }
 
             // Wait for every download to finish
             if (wait) Task.WaitAll(tasks.ToArray());
-
-            Console.SetCursorPosition(0, row);
             return tasks;
         }
 
