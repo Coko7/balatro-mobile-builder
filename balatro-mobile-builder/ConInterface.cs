@@ -218,6 +218,8 @@ namespace BalatroMobileBuilder
         static extern bool SetConsoleMode(IntPtr hConsoleHandle, uint dwMode);
 
         public static void enableVTMode() {
+            if (!isVTModeAvailable())
+                return;
             var handle = GetStdHandle(STD_OUTPUT_HANDLE);
             uint mode;
             GetConsoleMode(handle, out mode);
