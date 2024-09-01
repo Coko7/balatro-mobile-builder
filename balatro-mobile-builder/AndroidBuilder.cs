@@ -115,7 +115,7 @@ namespace BalatroMobileBuilder
         android:versionCode=""{versionCode}""
         android:versionName=""{balatroVer}""
         android:installLocation=""auto""
-		xmlns:android=""http://schemas.android.com/apk/res/android"">
+        xmlns:android=""http://schemas.android.com/apk/res/android"">
     <uses-permission android:name=""android.permission.INTERNET"" />
     <uses-permission android:name=""android.permission.VIBRATE"" />
     <uses-permission android:name=""android.permission.BLUETOOTH"" />

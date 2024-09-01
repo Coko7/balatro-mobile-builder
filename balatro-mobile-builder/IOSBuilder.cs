@@ -54,7 +54,7 @@ namespace BalatroMobileBuilder
              * Define CFBundleVersion like so: BBBB.AAAA.0,
              * where BBBB is the Balatro version and AAAA is the builder version
              * (Example: 1.0.1f + 0.9.0 -> 1016.0900.0).
-			 */
+             */
             string bundleVersion = $"{balatroVer.ToString().Replace(".", "")}.{builderVer.ToString().Replace(".", "")}.0";
 
             return @$"<?xml version=""1.0"" encoding=""UTF-8""?>
