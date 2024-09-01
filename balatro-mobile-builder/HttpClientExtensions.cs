@@ -1,6 +1,7 @@
 ﻿namespace BalatroMobileBuilder
 {
-    public static class HttpDownloadExtensions
+    // https://gist.github.com/dalexsoto/9fd3c5bdbe9f61a717d47c5843384d11
+    public static class HttpClientExtensions
     {
         public static async Task DownloadDataAsync(this HttpClient client, string requestUrl, Stream destination, IProgress<float>? progress = null, CancellationToken cancellationToken = default(CancellationToken)) {
             using (var response = await client.GetAsync(requestUrl, HttpCompletionOption.ResponseHeadersRead)) {
