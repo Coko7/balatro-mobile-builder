@@ -157,12 +157,12 @@ namespace BalatroMobileBuilder
                     balaBridge.adb.waitFor();
 
                     string? oldPackagesList = null;
-                    balaBridge.adb.runShell("pm list packages com.unofficial.balatro", out oldPackagesList);
+                    balaBridge.adb.runShell($"pm list packages {AndroidBalatroBridge.packageName}", out oldPackagesList);
 
                     Console.WriteLine("Installing...");
                     balaBridge.installApk(outFilePath);
 
-                    if (ask("Copy local saves to your device", silentMode, !oldPackagesList?.Contains("com.unofficial.balatro"))) {
+                    if (ask("Copy local saves to your device", silentMode, !oldPackagesList?.Contains(AndroidBalatroBridge.packageName))) {
                         balaBridge.adb.waitFor();
                         bool copySuccess = true;
                         for (int i = 1; i <= 3; i++) {

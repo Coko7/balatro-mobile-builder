@@ -111,7 +111,7 @@ namespace BalatroMobileBuilder
             versionCode += balatroVer.Major * (int)1e7 + balatroVer.Minor * (int)1e6 + balatroVer.Build * (int)1e5 + balatroVer.Revision * (int)1e4;
 
             return $@"<?xml version=""1.0"" encoding=""utf-8""?>
-<manifest package=""com.unofficial.balatro""
+<manifest package=""{AndroidBalatroBridge.packageName}""
         android:versionCode=""{versionCode}""
         android:versionName=""{balatroVer}""
         android:installLocation=""auto""

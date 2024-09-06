@@ -4,6 +4,7 @@ namespace BalatroMobileBuilder
 {
     public class AndroidBalatroBridge
     {
+        public static readonly string packageName = "com.unofficial.balatro";
         public ExternalTool.ADB adb;
 
         public AndroidBalatroBridge() {
@@ -42,12 +43,12 @@ namespace BalatroMobileBuilder
             // Clean and prepare folders
             adb.runShell("rm -r /data/local/tmp/balatro/");
             adb.runShell($"mkdir -p /data/local/tmp/balatro/{saveNum}/");
-            adb.runShell($"mkdir -p ./files/save/game/{saveNum}/", "com.unofficial.balatro");
+            adb.runShell($"mkdir -p ./files/save/game/{saveNum}/", packageName);
             // Copy
             int errCheck = adb.push($"{savePath}/{saveNum}/.", $"/data/local/tmp/balatro/{saveNum}/");
-            adb.runShell("am force-stop com.unofficial.balatro"); // Stop Balatro process
-            adb.runShell($"rm ./files/save/game/{saveNum}/save.jkr", "com.unofficial.balatro"); // Remove save.jkr as it may not be present (and not overwritten)
-            errCheck |= adb.runShell($"cp -r /data/local/tmp/balatro/{saveNum} ./files/save/game", "com.unofficial.balatro")?.ExitCode ?? 1;
+            adb.runShell($"am force-stop {packageName}"); // Stop Balatro process
+            adb.runShell($"rm ./files/save/game/{saveNum}/save.jkr", packageName); // Remove save.jkr as it may not be present (and not overwritten)
+            errCheck |= adb.runShell($"cp -r /data/local/tmp/balatro/{saveNum} ./files/save/game", packageName)?.ExitCode ?? 1;
 
             return errCheck == 0;
         }
@@ -64,13 +65,13 @@ namespace BalatroMobileBuilder
             Directory.CreateDirectory($"{savePath}/{saveNum}");
             adb.runShell("rm -r /data/local/tmp/balatro/");
             adb.runShell($"mkdir -p /data/local/tmp/balatro/{saveNum}/");
-            adb.runShell($"mkdir -p ./files/save/game/{saveNum}/", "com.unofficial.balatro");
+            adb.runShell($"mkdir -p ./files/save/game/{saveNum}/", packageName);
             // Copy
-            int errCheck = adb.runShell($"cat ./files/save/game/{saveNum}/profile.jkr > /data/local/tmp/balatro/{saveNum}/profile.jkr", "com.unofficial.balatro")?.ExitCode ?? 1;
-            errCheck |= adb.runShell($"cat ./files/save/game/{saveNum}/meta.jkr > /data/local/tmp/balatro/{saveNum}/meta.jkr", "com.unofficial.balatro")?.ExitCode ?? 1;
+            int errCheck = adb.runShell($"cat ./files/save/game/{saveNum}/profile.jkr > /data/local/tmp/balatro/{saveNum}/profile.jkr", packageName)?.ExitCode ?? 1;
+            errCheck |= adb.runShell($"cat ./files/save/game/{saveNum}/meta.jkr > /data/local/tmp/balatro/{saveNum}/meta.jkr", packageName)?.ExitCode ?? 1;
             if (ignoreNonExistent && errCheck != 0)
                 return true;
-            adb.runShell($"cat ./files/save/game/{saveNum}/save.jkr > /data/local/tmp/balatro/{saveNum}/save.jkr", "com.unofficial.balatro");
+            adb.runShell($"cat ./files/save/game/{saveNum}/save.jkr > /data/local/tmp/balatro/{saveNum}/save.jkr", packageName);
             File.Delete($"{savePath}/{saveNum}/save.jkr"); // Remove save.jkr as it may not be present (and not overwritten)
             errCheck |= adb.pull($"/data/local/tmp/balatro/{saveNum}/.", $"{savePath}/{saveNum}/");
 
@@ -81,7 +82,7 @@ namespace BalatroMobileBuilder
             // Read file as hex string using xxd and then convert to binary.
             // By doing it this way, we avoid pulling through ADB.
             string? hex = null;
-            adb.runShell($"xxd -c 0 -p files/save/game/{saveNum}/{type}.jkr", out hex, "com.unofficial.balatro");
+            adb.runShell($"xxd -c 0 -p files/save/game/{saveNum}/{type}.jkr", out hex, packageName);
             if (!string.IsNullOrEmpty(hex)) {
                 hex = hex.Trim();
                 byte[] fileContent = Enumerable.Range(0, hex.Length / 2)
