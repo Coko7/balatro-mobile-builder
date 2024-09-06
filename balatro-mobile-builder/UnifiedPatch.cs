@@ -48,27 +48,26 @@ namespace BalatroMobileBuilder
                  * lines starting with '+' are added ctx
                  * and lines starting with '\' indicate that the previous line has no new line.
                  */
+                bool addNewLine = i + 1 >= lines.Length || lines[i + 1].Length == 0
+                        || lines[i + 1][0] != '\\';
                 switch (lines[i][0]) {
                 case ' ':
                     patchHunks[hunkIndex].ogCtxLines[++ogCtxIndex] = lines[i].Substring(1);
                     patchHunks[hunkIndex].nwCtxLines[++nwCtxIndex] = lines[i].Substring(1);
-                    if (i + 1 >= lines.Length || lines[i + 1].Length == 0
-                        || lines[i + 1][0] != '\\') {
+                    if (addNewLine) {
                         patchHunks[hunkIndex].ogCtxLines[ogCtxIndex] += '\n';
                         patchHunks[hunkIndex].nwCtxLines[nwCtxIndex] += '\n';
                     }
                     break;
                 case '-':
                     patchHunks[hunkIndex].ogCtxLines[++ogCtxIndex] = lines[i].Substring(1);
-                    if (i + 1 >= lines.Length || lines[i + 1].Length == 0
-                        || lines[i + 1][0] != '\\') {
+                    if (addNewLine) {
                         patchHunks[hunkIndex].ogCtxLines[ogCtxIndex] += '\n';
                     }
                     break;
                 case '+':
                     patchHunks[hunkIndex].nwCtxLines[++nwCtxIndex] = lines[i].Substring(1);
-                    if (i + 1 >= lines.Length || lines[i + 1].Length == 0
-                        || lines[i + 1][0] != '\\') {
+                    if (addNewLine) {
                         patchHunks[hunkIndex].nwCtxLines[nwCtxIndex] += '\n';
                     }
                     break;
