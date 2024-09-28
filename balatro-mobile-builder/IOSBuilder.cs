@@ -51,11 +51,12 @@ namespace BalatroMobileBuilder
             Version builderVer = Assembly.GetExecutingAssembly().GetName().Version ?? new Version(0, 0, 0, 0);
             string shortVersion = balatroVer.ToString(3);
             /* 
-             * Define CFBundleVersion like so: BBBB.AAAA.0,
-             * where BBBB is the Balatro version and AAAA is the builder version
-             * (Example: 1.0.1f + 0.9.0 -> 1016.0900.0).
+             * Define CFBundleVersion like so: BBBBB.AAAA.0,
+             * where BBBBB is the Balatro version and AAAA is the builder version
+             * (Example: 1.0.1f + 0.9.0 -> 10106.0900.0).
              */
-            string bundleVersion = $"{balatroVer.ToString().Replace(".", "")}.{builderVer.ToString().Replace(".", "")}.0";
+            string bundleVersion = balatroVer.ToString(3).Replace(".", "") + balatroVer.Revision.ToString("00");
+            bundleVersion += $".{builderVer.ToString().Replace(".", "")}.0";
 
             return @$"<?xml version=""1.0"" encoding=""UTF-8""?>
 <!DOCTYPE plist PUBLIC ""-//Apple//DTD PLIST 1.0//EN"" ""http://www.apple.com/DTDs/PropertyList-1.0.dtd"">
